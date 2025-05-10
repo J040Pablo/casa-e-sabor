@@ -1,6 +1,12 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import "../styles/Home.css"; // Arquivo de estilos
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 
 export default function Home() {
   return (
@@ -60,17 +66,36 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="about">
         <h2 className="section-title">Sobre nós</h2>
-        <p className="about-text">
-          A Casa & Sabor nasceu da paixão por comida caseira feita com carinho.
-          Nosso objetivo é oferecer pratos saborosos em um ambiente acolhedor,
-          onde todos se sintam em casa.
-        </p>
-        <div className="image-container">
-          <img
-            src="/example-image.jpg"
-            alt="Pratos da Casa & Sabor"
-            className="about-image"
-          />
+        <div className="about-content">
+          <div className="about-texts">
+            <h3 className="about-subtitle">🍽️ Quem Somos</h3>
+            <p className="about-description">
+              A Casa & Sabor nasceu da paixão por comida caseira feita com
+              carinho. Nosso objetivo é oferecer pratos saborosos em um ambiente
+              acolhedor, onde cada cliente se sinta em casa.
+            </p>
+
+            <h3 className="about-subtitle">💬 Nossa Filosofia</h3>
+            <p className="about-description">
+              Acreditamos que a boa comida vai além do prato: ela envolve
+              cuidado, tradição e bons momentos. Usamos ingredientes frescos e
+              prezamos pelo atendimento próximo e atencioso.
+            </p>
+
+            <h3 className="about-subtitle">📍 Nosso Propósito</h3>
+            <p className="about-description">
+              Queremos ser a melhor opção de comida caseira da região,
+              entregando sempre qualidade, sabor e aconchego a cada refeição.
+            </p>
+          </div>
+
+          <div className="image-container">
+            <img
+              src="https://cdn.deliway.com.br/blog/base/675/956/759/prato-executivo.jpg"
+              alt="Pratos da Casa & Sabor"
+              className="about-image"
+            />
+          </div>
         </div>
       </section>
 
@@ -125,8 +150,12 @@ export default function Home() {
               batatas douradas e crocantes por fora, macias por dentro.
             </p>
           </div>
+          <div className="see-menu-button-container">
+            <button className="btn">Ver Cardápio</button>
+          </div>
         </div>
       </section>
+      {/* ============================================ Avaliações ======================================================= */}
       <section id="reviews" className="reviews">
         <h2 className="section-title">Avaliações</h2>
         <div className="reviews-grid">
@@ -152,6 +181,56 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/*=============================================== Footer Section ==================================================*/}
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-left">
+            <h3 className="footer-logo">Casa & Sabor</h3>
+            <p className="footer-description">
+              Comida caseira feita com carinho e dedicação para você!
+            </p>
+          </div>
+          <div className="footer-right">
+            <ul className="footer-links">
+              <li>
+                <a href="#about">Sobre Nós</a>
+              </li>
+              <li>
+                <a href="#favorite-dishes">Cardápio</a>
+              </li>
+              <li>
+                <a href="#reviews">Avaliações</a>
+              </li>
+            </ul>
+            <div className="footer-social">
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon icon={faFacebook} className="social-icon" />
+              </a>
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon icon={faInstagram} className="social-icon" />
+              </a>
+              <a
+                href="https://www.twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon icon={faTwitter} className="social-icon" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>&copy; 2025 Casa & Sabor. Todos os direitos reservados.</p>
+        </div>
+      </footer>
     </div>
   );
 }

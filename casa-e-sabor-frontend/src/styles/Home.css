@@ -23,6 +23,7 @@ body {
 
 .welcome-text {
   color: #f8b400;
+  padding-top: 6rem;
   font-size: 1.5rem;
   margin: 0;
 }
@@ -86,18 +87,33 @@ body {
   color: #555;
 }
 
-/* About Section */
+/* =================================================== About Section =======================================================*/
 .about {
-  padding: 2rem 1rem;
-  background-color: #ffffff;
+  padding: 4rem 2rem;
+  background-color: #f9f9f9;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
 }
 
 .section-title {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
+  text-align: left; /* Mantém o alinhamento à esquerda */
+  flex: 1; /* Garante que o título ocupe o espaço necessário */
+  padding-left: 20px; /* Adiciona um pouco de espaço à esquerda */
 }
 
+/* Texto de descrição */
 .about-text {
   font-size: 1rem;
   color: #555;
@@ -105,8 +121,38 @@ body {
   line-height: 1.5;
 }
 
+.about-texts {
+  flex: 1;
+  min-width: 280px;
+  text-align: left; /* Garante alinhamento à esquerda */
+  padding-left: 1rem; /* Move o conteúdo mais para a esquerda */
+}
+
+.about-subtitle {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+}
+
 .image-container {
   text-align: center;
+}
+
+.about-description {
+  color: #828282;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left; /* Evita justificação */
+}
+
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 280px;
 }
 
 .about-image {
@@ -114,23 +160,45 @@ body {
   height: auto;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 30px; /* Adiciona espaço acima da imagem */
 }
 
-/*============================================= Favorite Dishes =====================================================*/
+/*============================================= Pratos Favoritos (Cardápio) =====================================================*/
+
+/* Seção de pratos favoritos */
 .favorite-dishes {
+  font-size: 2rem;
   padding: 64px 32px;
   background-color: #f9f9f9;
   text-align: center;
+  margin-top: -20px; /* Aproxima do conteúdo anterior */
 }
 
+/* Título "Pratos Favoritos" */
+.favorite-dishes h2 {
+  margin-top: -40px; /* Aproxima do título "Pratos Favoritos" do título "Cardápio" */
+}
+
+/* Título do cardápio */
+.menu-title {
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: -30px; /* Aproxima do "Pratos Favoritos" */
+  font-weight: bold;
+  color: #f8b400;
+}
+
+/* Grade de pratos (layout flex) */
 .dishes-grid {
   display: flex;
   justify-content: center;
   gap: 32px;
   margin-top: 24px;
   flex-wrap: wrap;
+  margin-top: -20px;
 }
 
+/* Cartão de prato */
 .dish-card {
   background-color: #fff;
   padding: 16px;
@@ -139,6 +207,7 @@ body {
   width: 250px;
 }
 
+/* Imagem do prato */
 .dish-image {
   width: 100%;
   height: 160px;
@@ -146,22 +215,66 @@ body {
   border-radius: 8px;
 }
 
+/* Nome do prato */
 .dish-name {
   margin-top: 12px;
   font-size: 18px;
   color: #333;
 }
+
+/* Descrição do prato */
 .dish-description {
   color: #828282;
   font-size: 14px;
   margin-top: 8px;
 }
+
+/* Container do botão "Ver Cardápio" */
+.see-menu-button-container {
+  text-align: center;
+  width: 100%;
+  margin-top: 32px; /* Coloca o botão embaixo com um bom espaçamento */
+  display: flex;
+  justify-content: center;
+}
+
+/* Botão */
+.btn {
+  background-color: black;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Efeito hover no botão */
+.btn:hover {
+  background-color: #333; /* Muda para um tom mais escuro quando o botão é pressionado */
+}
+
+/*============================================= Avaliações =====================================================*/
+
 .reviews {
   padding: 60px 20px;
-  background-color: #fff8f0;
+  background-color: rgb(252, 252, 252);
   text-align: center;
 }
 
+/* Título da seção de Avaliações - novo estilo */
+.reviews .section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente, se necessário */
+  height: 100px; /* Define uma altura para garantir que o título fique bem posicionado */
+}
+
+/* Estilo das avaliações */
 .reviews-grid {
   display: grid;
   gap: 20px;
@@ -193,30 +306,204 @@ body {
   font-weight: bold;
   color: #333;
 }
-.welcome {
-  padding-top: 120px; /* Ajuste conforme a altura real da sua navbar */
+/*================================================ Footer Styles ========================================================*/
+.footer {
+  background-color: #dddddd;
+  color: #000;
+  padding: 20px 20px;
+  font-size: 1rem;
+  min-height: 160px;
 }
 
-.favorite-dishes {
-  padding: 64px 32px;
-  background-color: #f9f9f9;
-  text-align: center;
-  margin-top: -20px; /* Ajuste o valor para aproximar os dois títulos */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
 }
 
-/*Cardapio Perto Dos Pratos Favoritos*/
-.menu-title {
-  font-size: 2.5rem;
-  text-align: center;
-  margin-top: 0; /* Remove a margem superior */
+.footer-left {
+  flex: 1;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
   font-weight: bold;
-  color: #f8b400;
+  color: #000000;
+  margin-bottom: 5px;
+  margin-left: -270px; /* Move ligeiramente para a direita */
 }
 
-.favorite-dishes {
-  margin-top: -10px; /* Ajuste essa margem conforme necessário */
+.footer-description {
+  font-size: 1rem;
+  font-weight: normal;
+  color: #000000;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  max-width: 300px;
+  margin-left: -20px; /* Move ligeiramente para a direita */
 }
 
-.favorite-dishes h2 {
-  margin-top: -10px; /* Ajuste a margem superior do título de "Pratos Favoritos" */
+.footer-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 10px;
+  gap: 10px;
+  margin-left: 80px; /* Move todo o bloco para a direita */
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 355px; /* Move os links para a direita */
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #000000;
+  font-size: 1rem;
+}
+
+.footer-links a:hover {
+  color: #f2a900;
+}
+
+.footer-social {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-left: 350px; /* Alinha com os links */
+}
+
+.social-icon {
+  font-size: 28px;
+  color: #333;
+  transition: transform 0.3s;
+}
+
+.social-icon:hover {
+  transform: scale(1.2);
+  color: #0077b5;
+}
+
+.footer-bottom {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #000000;
+  text-align: left;
+  margin-left: 20px;
+}
+/* ===================== Responsividade ===================== */
+@media (max-width: 1024px) {
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .about-texts,
+  .image-container {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .section-title {
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-logo,
+  .footer-description,
+  .footer-links,
+  .footer-social {
+    margin-left: 0 !important;
+  }
+
+  .footer-right {
+    margin-left: 0;
+    align-items: center;
+  }
+
+  .footer-links {
+    margin: 0;
+  }
+
+  .footer-social {
+    margin: 10px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .info {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .dishes-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-container {
+    padding: 1rem;
+  }
+
+  .footer-logo {
+    font-size: 1.5rem;
+  }
+
+  .footer-description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-title {
+    font-size: 2rem;
+  }
+
+  .subtitle,
+  .about-description,
+  .about-text {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .dish-card {
+    width: 90%;
+  }
+
+  .footer {
+    font-size: 0.9rem;
+  }
+
+  .review-text {
+    font-size: 1rem;
+  }
+
+  .review-card {
+    padding: 15px;
+  }
 }
