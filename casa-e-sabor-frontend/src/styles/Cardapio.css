@@ -1,0 +1,121 @@
+/* Estilos gerais */
+.cardapio {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.cardapio-header {
+  text-align: center;
+  padding: 2rem 0;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #ddd;
+}
+
+.cardapio-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.cardapio-subtitle {
+  font-size: 1rem;
+  color: #777;
+}
+
+.cardapio-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Estilo de cada item */
+.cardapio-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cardapio-item-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-right: 1px solid #ddd;
+}
+
+.cardapio-item-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.item-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.item-description {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.item-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+/* Estilo do botão de Finalizar Pedido */
+.finalizar-pedido {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.finalizar-pedido-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #d49c00;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.finalizar-pedido-button:hover {
+  background-color: #c78b00;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cart-icon {
+  font-size: 20px;
+}
+.adicionar-carrinho-button {
+  margin-top: 0.5rem;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.adicionar-carrinho-button:hover {
+  background-color: #e68900;
+}

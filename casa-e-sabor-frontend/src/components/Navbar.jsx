@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -14,22 +16,31 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="container">
-        <h1 className="logo">Casa & Sabor</h1>
-        <nav className="nav-links">
-          <a href="#about" className="nav-item">
-            Sobre-nós
+        {/* Logo redireciona para Home */}
+        <div className="logo" onClick={() => navigate("/")}>
+          Casa & Sabor
+        </div>
+
+        {/* Menu de navegação */}
+        <div className="nav-links">
+          <a className="nav-item" href="#about">
+            Sobre Nós
           </a>
-          <a href="#favorite-dishes" className="nav-item">
-            Pratos Favoritos
+          <a className="nav-item" href="#favorite-dishes">
+            Cardápio
           </a>
-          <a href="#reviews" className="nav-item">
+          <a className="nav-item" href="#reviews">
             Avaliações
           </a>
-          <button className="order-button">Peça aqui</button>
-        </nav>
+        </div>
+
+        {/* Botão "Peça Aqui" redireciona para o Cardápio */}
+        <button className="order-button" onClick={() => navigate("/cardapio")}>
+          Peça Aqui
+        </button>
       </div>
-    </header>
+    </nav>
   );
 }

@@ -1,0 +1,125 @@
+/* Modal do Carrinho */
+.carrinho-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideUp 0.4s ease-out;
+  padding: 20px;
+  max-height: 70%;
+  overflow-y: auto;
+}
+
+/* Animação de Slide Up */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Conteúdo do Carrinho */
+.carrinho-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Título do Carrinho */
+.carrinho-conteudo h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+/* Botão de Fechar */
+.fechar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.fechar:hover {
+  color: #f8b400;
+}
+
+/* Lista de Itens no Carrinho */
+.lista-carrinho {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Cada Item do Carrinho */
+.item-carrinho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item-carrinho span {
+  font-size: 1rem;
+  color: #333;
+}
+
+.remover-item {
+  background: transparent;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.remover-item:hover {
+  transform: scale(1.1);
+  color: #c0392b;
+}
+
+/* Total do Carrinho */
+.total {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: right;
+  color: #333;
+}
+
+/* Botão Finalizar Pedido */
+.finalizar {
+  width: 100%;
+  padding: 12px;
+  background-color: #f8b400;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.finalizar:hover {
+  background-color: #e5a200;
+}

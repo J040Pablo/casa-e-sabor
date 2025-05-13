@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import "../styles/Home.css"; // Arquivo de estilos
+import "../styles/Home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -9,6 +10,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <div className="home">
       {/* Navbar */}
@@ -22,7 +24,9 @@ export default function Home() {
           Subheading that sets up context, shares more info about the website,
           or generally gets people psyched to keep scrolling.
         </p>
-        <button className="btn">Ver Cardápio</button>
+        <button className="btn" onClick={() => navigate("/cardapio")}>
+          Ver Cardápio
+        </button>
       </section>
 
       {/* Info Section */}
@@ -151,7 +155,9 @@ export default function Home() {
             </p>
           </div>
           <div className="see-menu-button-container">
-            <button className="btn">Ver Cardápio</button>
+            <button className="btn" onClick={() => navigate("/cardapio")}>
+              Ver Cardápio
+            </button>
           </div>
         </div>
       </section>
