@@ -16,12 +16,70 @@ import { toast } from "react-toastify";
 
 export default function Cardapio() {
   const [carrinho, setCarrinho] = useState([]); // Estado para armazenar os pratos no carrinho
-  const [carrinhoVisible, setCarrinhoVisible] = useState(false); // Estado para controlar a visibilidade do modal
+  const [carrinhoVisible, setCarrinhoVisible] = useState([]); // Estado para controlar a visibilidade do modal
 
   // Função para adicionar prato ao carrinho
   const adicionarAoCarrinho = (prato) => {
-    setCarrinho([...carrinho, prato]);
+    setCarrinho((prevCarrinho) => {
+      const novoCarrinho = [...prevCarrinho, prato];
+      return novoCarrinho;
+    });
     toast.success("Adicionado ao carrinho com sucesso!");
+  };
+
+  // Função para finalizar o pedido
+  const finalizarPedido = async () => {
+    if (!Array.isArray(carrinho) || carrinho.length === 0) {
+      toast.error("Carrinho está vazio.");
+      return;
+    }
+
+    console.log("Carrinho antes de calcular o total:", carrinho);
+
+    const total = carrinho.reduce((soma, item) => {
+      if (!item || !item.preco || isNaN(item.preco)) {
+        toast.error("Erro no preço de um dos itens.");
+        return soma;
+      }
+      return soma + parseFloat(item.preco);
+    }, 0);
+
+    const pedido = {
+      cliente: "Nome do Cliente", // Substitua pelo nome do cliente
+      status: "em andamento",
+      itens: carrinho.map((item) => ({
+        id: item.id,
+        nome: item.nome,
+        preco: item.preco,
+        quantidade: 1, // Ou outra quantidade que você possa ter
+      })),
+      total: total,
+    };
+
+    console.log("Dados do pedido enviados:", pedido); // Verifique aqui
+
+    try {
+      const response = await fetch("http://localhost:5000/api/pedidos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pedido),
+      });
+
+      if (response.ok) {
+        toast.success("Pedido finalizado com sucesso!");
+        setCarrinho([]); // Limpa o carrinho após finalizar
+        setCarrinhoVisible(false); // Fecha o modal
+      } else {
+        const data = await response.json();
+        console.error("Erro ao finalizar pedido:", data);
+        toast.error(data.message || "Erro ao finalizar o pedido.");
+      }
+    } catch (error) {
+      toast.error("Erro ao finalizar o pedido.");
+      console.error("Erro de rede ou outro:", error);
+    }
   };
 
   // Dados dos pratos
@@ -108,10 +166,7 @@ export default function Cardapio() {
         carrinho={carrinho}
         setCarrinho={setCarrinho}
         onFechar={() => setCarrinhoVisible(false)} // Fecha o modal
-        onFinalizar={() => {
-          console.log("Ver Carrinho clicado!");
-          // Aqui você pode implementar o comportamento desejado ao finalizar o pedido
-        }}
+        onFinalizar={finalizarPedido} // Função de finalizar pedido
       />
     </div>
   );

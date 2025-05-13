@@ -1,0 +1,39 @@
+# Dependências do Node
+node_modules/
+
+# Diretórios de compilação e distribuição
+/dist/
+/build/
+
+# Arquivos de log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de editor (VS Code, IntelliJ, etc.)
+.vscode/
+.idea/
+
+# Arquivos de cache do NPM
+.npm/
+
+# Arquivos gerados pelo Jest ou outros testes
+coverage/
+
+# Arquivos de banco de dados (caso esteja utilizando SQLite, por exemplo)
+*.sqlite
+
+# Arquivos temporários
+*.swp
+*.bak
+*.tmp
