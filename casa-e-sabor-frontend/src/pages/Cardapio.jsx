@@ -6,18 +6,19 @@ import "../styles/Cardapio.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
-import Prato1 from "../assets/prato1.webp";
-import Prato2 from "../assets/prato2.webp";
-import Prato3 from "../assets/prato3.webp";
+import Croissant from "../assets/croissant-de-chocolate.jpg";
+import Macarrao from "../assets/Macarrao Alfredo.webp";
+import Frango from "../assets/batatas rusticas com frango e bacon.jpg";
 import Prato4 from "../assets/prato4.webp";
+
+import Bebida1 from "../assets/agua.png"; // imagina que você tenha essas imagens
+import Bebida2 from "../assets/agua.png";
 
 import { toast } from "react-toastify";
 
 export default function Cardapio() {
   const [carrinho, setCarrinho] = useState([]);
   const [carrinhoVisible, setCarrinhoVisible] = useState(false);
-
-  // URL do backend via variável de ambiente
 
   const backendURL = "https://casa-e-sabor.onrender.com";
 
@@ -41,7 +42,7 @@ export default function Cardapio() {
     }, 0);
 
     const pedido = {
-      cliente: "Nome do Cliente", // Ajuste conforme sua lógica
+      cliente: "Nome do Cliente",
       status: "em andamento",
       itens: carrinho.map((item) => ({
         id: item.id,
@@ -73,27 +74,31 @@ export default function Cardapio() {
     }
   };
 
-  const pratos = [
+  // Lista de comidas
+  const comidas = [
     {
       id: 1,
-      nome: "Prato Especial 1",
-      descricao: "Delicioso.",
-      preco: 45.0,
-      imagem: Prato1,
+      nome: "Croissant de Chocolate",
+      descricao:
+        "Massa leve e folhada recheada com chocolate meio amargo, assada até dourar.",
+      preco: 9.9,
+      imagem: Croissant,
     },
     {
       id: 2,
-      nome: "Prato Especial 2",
-      descricao: "Sabor único.",
-      preco: 38.0,
-      imagem: Prato2,
+      nome: "Macarrão ao Molho Alfredo",
+      descricao:
+        "Espaguete com molho cremoso de queijo, creme de leite e ervas frescas.",
+      preco: 21.9,
+      imagem: Macarrao,
     },
     {
       id: 3,
-      nome: "Prato Especial 3",
-      descricao: "Ingredientes incríveis.",
-      preco: 50.0,
-      imagem: Prato3,
+      nome: "Frango Grelhado com Batatas Rústicas",
+      descricao:
+        "Filé de frango com tempero da casa e batatas douradas e crocantes.",
+      preco: 24.9,
+      imagem: Frango,
     },
     {
       id: 4,
@@ -101,6 +106,24 @@ export default function Cardapio() {
       descricao: "Irresistível.",
       preco: 42.0,
       imagem: Prato4,
+    },
+  ];
+
+  // Lista de bebidas
+  const bebidas = [
+    {
+      id: 101,
+      nome: "Suco Natural",
+      descricao: "Refrescante e saudável.",
+      preco: 12.0,
+      imagem: Bebida1,
+    },
+    {
+      id: 102,
+      nome: "Refrigerante",
+      descricao: "Geladinho e saboroso.",
+      preco: 8.0,
+      imagem: Bebida2,
     },
   ];
 
@@ -115,27 +138,58 @@ export default function Cardapio() {
         </p>
       </header>
 
-      <section className="cardapio-items">
-        {pratos.map((prato) => (
-          <div className="cardapio-item" key={prato.id}>
-            <img
-              src={prato.imagem}
-              alt={prato.nome}
-              className="cardapio-item-image"
-            />
-            <div className="cardapio-item-content">
-              <h3 className="item-title">{prato.nome}</h3>
-              <p className="item-description">{prato.descricao}</p>
-              <p className="item-price">R$ {prato.preco.toFixed(2)}</p>
-              <button
-                className="adicionar-carrinho-button"
-                onClick={() => adicionarAoCarrinho(prato)}
-              >
-                <FontAwesomeIcon icon={faShoppingCart} /> Adicionar
-              </button>
+      {/* Seção Comidas */}
+      <section className="cardapio-section">
+        <h2 className="section-title">Comidas</h2>
+        <div className="cardapio-items">
+          {comidas.map((prato) => (
+            <div className="cardapio-item" key={prato.id}>
+              <img
+                src={prato.imagem}
+                alt={prato.nome}
+                className="cardapio-item-image"
+              />
+              <div className="cardapio-item-content">
+                <h3 className="item-title">{prato.nome}</h3>
+                <p className="item-description">{prato.descricao}</p>
+                <p className="item-price">R$ {prato.preco.toFixed(2)}</p>
+                <button
+                  className="adicionar-carrinho-button"
+                  onClick={() => adicionarAoCarrinho(prato)}
+                >
+                  <FontAwesomeIcon icon={faShoppingCart} /> Adicionar
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      </section>
+
+      {/* Seção Bebidas */}
+      <section className="cardapio-section">
+        <h2 className="section-title">Bebidas</h2>
+        <div className="cardapio-items">
+          {bebidas.map((bebida) => (
+            <div className="cardapio-item" key={bebida.id}>
+              <img
+                src={bebida.imagem}
+                alt={bebida.nome}
+                className="cardapio-item-image"
+              />
+              <div className="cardapio-item-content">
+                <h3 className="item-title">{bebida.nome}</h3>
+                <p className="item-description">{bebida.descricao}</p>
+                <p className="item-price">R$ {bebida.preco.toFixed(2)}</p>
+                <button
+                  className="adicionar-carrinho-button"
+                  onClick={() => adicionarAoCarrinho(bebida)}
+                >
+                  <FontAwesomeIcon icon={faShoppingCart} /> Adicionar
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       <div className="finalizar-pedido">
