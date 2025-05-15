@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import CarrinhoModal from "../components/CarrinhoModal"; // Importando o CarrinhoModal
-
+import CarrinhoModal from "../components/CarrinhoModal";
 import "../styles/Cardapio.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,29 +14,26 @@ import Prato4 from "../assets/prato4.webp";
 import { toast } from "react-toastify";
 
 export default function Cardapio() {
-  const [carrinho, setCarrinho] = useState([]); // Estado para armazenar os pratos no carrinho
-  const [carrinhoVisible, setCarrinhoVisible] = useState(false); // Estado para controlar a visibilidade do modal
+  const [carrinho, setCarrinho] = useState([]);
+  const [carrinhoVisible, setCarrinhoVisible] = useState(false);
 
-  // Função para adicionar prato ao carrinho
+  // URL do backend via variável de ambiente
+
+  const backendURL = "https://casa-e-sabor.onrender.com";
+
   const adicionarAoCarrinho = (prato) => {
-    setCarrinho((prevCarrinho) => {
-      const novoCarrinho = [...prevCarrinho, prato];
-      return novoCarrinho;
-    });
+    setCarrinho((prevCarrinho) => [...prevCarrinho, prato]);
     toast.success("Adicionado ao carrinho com sucesso!");
   };
 
-  // Função para finalizar o pedido
   const finalizarPedido = async () => {
     if (!Array.isArray(carrinho) || carrinho.length === 0) {
       toast.error("Carrinho está vazio.");
       return;
     }
 
-    console.log("Carrinho antes de calcular o total:", carrinho);
-
     const total = carrinho.reduce((soma, item) => {
-      if (!item || !item.preco || isNaN(item.preco)) {
+      if (!item?.preco || isNaN(item.preco)) {
         toast.error("Erro no preço de um dos itens.");
         return soma;
       }
@@ -45,25 +41,21 @@ export default function Cardapio() {
     }, 0);
 
     const pedido = {
-      cliente: "Nome do Cliente", // Substitua pelo nome do cliente
+      cliente: "Nome do Cliente", // Ajuste conforme sua lógica
       status: "em andamento",
       itens: carrinho.map((item) => ({
         id: item.id,
         nome: item.nome,
         preco: item.preco,
-        quantidade: 1, // Ou outra quantidade que você possa ter
+        quantidade: 1,
       })),
-      total: total,
+      total,
     };
 
-    console.log("Dados do pedido enviados:", pedido); // Verifique aqui
-
     try {
-      const response = await fetch("http://localhost:5000/api/pedidos", {
+      const response = await fetch(`${backendURL}/api/pedidos`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(pedido),
       });
 
@@ -72,54 +64,41 @@ export default function Cardapio() {
         setCarrinho([]);
         setCarrinhoVisible(false);
       } else {
-        // Se o backend não retorna JSON válido, pode quebrar, então trate
-        let data;
-        try {
-          data = await response.json();
-        } catch (jsonError) {
-          console.error("Erro ao ler resposta JSON:", jsonError);
-          data = null;
-        }
-        console.error("Erro ao finalizar pedido:", data || response.statusText);
-        toast.error(
-          data?.message ||
-            `Erro ao finalizar o pedido. Status: ${response.status}`
-        );
+        const data = await response.json().catch(() => null);
+        toast.error(data?.message || `Erro: ${response.status}`);
       }
     } catch (error) {
       toast.error("Erro ao finalizar o pedido.");
-      console.error("Erro de rede ou outro:", error);
+      console.error(error);
     }
   };
 
-  // Dados dos pratos
   const pratos = [
     {
       id: 1,
       nome: "Prato Especial 1",
-      descricao: "Uma descrição deliciosa para deixar você com água na boca.",
+      descricao: "Delicioso.",
       preco: 45.0,
       imagem: Prato1,
     },
     {
       id: 2,
       nome: "Prato Especial 2",
-      descricao: "Experimente os sabores únicos deste prato especial.",
+      descricao: "Sabor único.",
       preco: 38.0,
       imagem: Prato2,
     },
     {
       id: 3,
       nome: "Prato Especial 3",
-      descricao:
-        "Feito com os melhores ingredientes para uma experiência incrível.",
+      descricao: "Ingredientes incríveis.",
       preco: 50.0,
       imagem: Prato3,
     },
     {
       id: 4,
       nome: "Prato Especial 4",
-      descricao: "Sabores irresistíveis que você vai adorar.",
+      descricao: "Irresistível.",
       preco: 42.0,
       imagem: Prato4,
     },
@@ -150,10 +129,9 @@ export default function Cardapio() {
               <p className="item-price">R$ {prato.preco.toFixed(2)}</p>
               <button
                 className="adicionar-carrinho-button"
-                onClick={() => adicionarAoCarrinho(prato)} // Adiciona o prato ao carrinho
+                onClick={() => adicionarAoCarrinho(prato)}
               >
-                <FontAwesomeIcon icon={faShoppingCart} />
-                Adicionar
+                <FontAwesomeIcon icon={faShoppingCart} /> Adicionar
               </button>
             </div>
           </div>
@@ -163,20 +141,19 @@ export default function Cardapio() {
       <div className="finalizar-pedido">
         <button
           className="finalizar-pedido-button"
-          onClick={() => setCarrinhoVisible(true)} // Abre o modal quando clica em "Ver Carrinho"
+          onClick={() => setCarrinhoVisible(true)}
         >
-          <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" />
-          Ver Carrinho ({carrinho.length})
+          <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" /> Ver
+          Carrinho ({carrinho.length})
         </button>
       </div>
 
-      {/* Passando carrinhoVisible como "visible" para o CarrinhoModal */}
       <CarrinhoModal
         visible={carrinhoVisible}
         carrinho={carrinho}
         setCarrinho={setCarrinho}
-        onFechar={() => setCarrinhoVisible(false)} // Fecha o modal
-        onFinalizar={finalizarPedido} // Função de finalizar pedido
+        onFechar={() => setCarrinhoVisible(false)}
+        onFinalizar={finalizarPedido}
       />
     </div>
   );
