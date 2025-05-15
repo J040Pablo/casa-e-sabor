@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 
 export default function Cardapio() {
   const [carrinho, setCarrinho] = useState([]); // Estado para armazenar os pratos no carrinho
-  const [carrinhoVisible, setCarrinhoVisible] = useState([]); // Estado para controlar a visibilidade do modal
+  const [carrinhoVisible, setCarrinhoVisible] = useState(false); // Estado para controlar a visibilidade do modal
 
   // Função para adicionar prato ao carrinho
   const adicionarAoCarrinho = (prato) => {
@@ -69,12 +69,22 @@ export default function Cardapio() {
 
       if (response.ok) {
         toast.success("Pedido finalizado com sucesso!");
-        setCarrinho([]); // Limpa o carrinho após finalizar
-        setCarrinhoVisible(false); // Fecha o modal
+        setCarrinho([]);
+        setCarrinhoVisible(false);
       } else {
-        const data = await response.json();
-        console.error("Erro ao finalizar pedido:", data);
-        toast.error(data.message || "Erro ao finalizar o pedido.");
+        // Se o backend não retorna JSON válido, pode quebrar, então trate
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          console.error("Erro ao ler resposta JSON:", jsonError);
+          data = null;
+        }
+        console.error("Erro ao finalizar pedido:", data || response.statusText);
+        toast.error(
+          data?.message ||
+            `Erro ao finalizar o pedido. Status: ${response.status}`
+        );
       }
     } catch (error) {
       toast.error("Erro ao finalizar o pedido.");
