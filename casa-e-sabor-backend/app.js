@@ -16,9 +16,20 @@ mongoose
   .catch((err) => console.error("Erro ao conectar:", err));
 
 // Habilita CORS para todas as origens (mude "*" para o domínio do frontend para produção)
+const allowedOrigins = [
+  "https://casa-e-sabor.vercel.app",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: "https://casa-e-sabor.vercel.app", // ajuste para a URL real do seu frontend no Vercel
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   })
 );
 
