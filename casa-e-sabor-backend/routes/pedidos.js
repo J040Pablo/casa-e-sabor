@@ -1,21 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const pedidosController = require("../controllers/pedidosController");
-const Pedido = require("../models/Pedido"); // <- IMPORTAÇÃO do modelo Pedido
+const authenticateToken = require("../middleware/authenticateToken");
 
-// Rota para criar um pedido
-router.post("/", async (req, res) => {
-  try {
-    const novoPedido = new Pedido(req.body);
-    await novoPedido.save();
-    res.status(201).json({ message: "Pedido criado com sucesso!" });
-  } catch (error) {
-    console.error("Erro ao salvar pedido:", error);
-    res.status(500).json({ message: "Erro ao salvar pedido." });
-  }
-});
+// Rota para criar um pedido (requer autenticação)
+router.post("/", authenticateToken, pedidosController.criarPedido);
 
-// Rota para listar os pedidos
+// Rota para listar os pedidos (pode ser pública ou protegida, como preferir)
 router.get("/", pedidosController.listarPedidos);
 
 module.exports = router;

@@ -1,61 +1,72 @@
-const Pedido = require("../models/Pedido");
-
-// Criar um novo pedido
 exports.criarPedido = async (req, res) => {
   try {
-    const { cliente, itens } = req.body;
+    const { itens } = req.body;
+    const user = req.user;
 
-    // Verifica se cliente e itens foram fornecidos corretamente
-    if (!cliente || !Array.isArray(itens) || itens.length === 0) {
+    // Validação básica
+    if (!user || !user.nome || !user.email) {
       return res.status(400).json({
-        message: "Cliente e itens são obrigatórios.",
+        message: "Usuário autenticado é obrigatório.",
       });
     }
 
-    // Calcula o total com base no preço e quantidade de cada item
-    const total = itens.reduce((soma, item) => {
-      if (
-        typeof item.preco !== "number" ||
-        typeof item.quantidade !== "number"
-      ) {
-        throw new Error(
-          "Item inválido: cada item deve conter 'preco' e 'quantidade' numéricos."
-        );
+    if (!Array.isArray(itens) || itens.length === 0) {
+      return res.status(400).json({
+        message: "Itens válidos são obrigatórios.",
+      });
+    }
+
+    // Validar cada item individualmente e converter para número se necessário
+    const itensValidados = itens.map((item) => {
+      if (!item.nome) {
+        throw new Error("Item sem nome encontrado");
       }
+
+      const preco =
+        typeof item.preco === "string" ? Number(item.preco) : item.preco;
+      const quantidade =
+        typeof item.quantidade === "string"
+          ? Number(item.quantidade)
+          : item.quantidade;
+
+      if (isNaN(preco) || isNaN(quantidade)) {
+        throw new Error(`Item ${item.nome}: preço ou quantidade inválidos`);
+      }
+
+      return {
+        ...item,
+        preco,
+        quantidade,
+      };
+    });
+
+    // Calcula o total com os itens validados
+    const total = itensValidados.reduce((soma, item) => {
       return soma + item.preco * item.quantidade;
     }, 0);
 
-    // Cria o novo pedido
+    // Cria o pedido usando dados do usuário autenticado
     const novoPedido = new Pedido({
-      cliente,
-      itens,
+      cliente: {
+        nome: user.nome,
+        email: user.email,
+      },
+      itens: itensValidados,
       total,
+      status: "em andamento",
+      dataCriacao: new Date(),
     });
 
     await novoPedido.save();
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Pedido criado com sucesso.",
       pedido: novoPedido,
     });
   } catch (err) {
-    console.error("Erro ao salvar pedido:", err); // Log no terminal
-    res.status(400).json({
+    return res.status(500).json({
       message: "Erro ao salvar pedido.",
       error: err.message,
-    });
-  }
-};
-
-// Listar todos os pedidos
-exports.listarPedidos = async (req, res) => {
-  try {
-    const pedidos = await Pedido.find().sort({ dataCriacao: -1 });
-    res.status(200).json(pedidos);
-  } catch (error) {
-    res.status(500).json({
-      message: "Erro ao buscar pedidos.",
-      error: error.message,
     });
   }
 };

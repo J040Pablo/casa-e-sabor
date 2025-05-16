@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Subdocumento para os itens do pedido
 const ItemPedidoSchema = new mongoose.Schema({
   nome: {
     type: String,
@@ -20,12 +19,19 @@ const ItemPedidoSchema = new mongoose.Schema({
   },
 });
 
-// Schema principal do pedido
 const PedidoSchema = new mongoose.Schema({
   cliente: {
-    type: String,
-    required: true,
-    trim: true,
+    nome: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
   },
   status: {
     type: String,
