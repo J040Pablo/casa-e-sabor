@@ -6,6 +6,7 @@ const pedidosRoutes = require("./routes/pedidos");
 const authRoutes = require("./routes/auth"); // Importa as rotas de autenticação
 const cors = require("cors");
 require("dotenv").config();
+console.log("JWT_SECRET carregado:", process.env.JWT_SECRET);
 
 // Conexão com o MongoDB Atlas
 mongoose
