@@ -1,3 +1,5 @@
+const Pedido = require("../models/Pedido");
+
 exports.criarPedido = async (req, res) => {
   try {
     const { itens } = req.body;
@@ -67,6 +69,25 @@ exports.criarPedido = async (req, res) => {
     return res.status(500).json({
       message: "Erro ao salvar pedido.",
       error: err.message,
+    });
+  }
+};
+
+exports.listarPedidos = async (req, res) => {
+  try {
+    // Buscar todos os pedidos no banco de dados
+    // Ordenados do mais recente para o mais antigo
+    const pedidos = await Pedido.find().sort({ dataCriacao: -1 });
+
+    // Retornar os pedidos encontrados
+    return res.status(200).json(pedidos);
+  } catch (error) {
+    console.error(">> [listarPedidos] erro ao buscar pedidos:", error);
+
+    // Retornar erro 500 em caso de falha
+    return res.status(500).json({
+      message: "Erro ao buscar pedidos.",
+      error: error.message,
     });
   }
 };
