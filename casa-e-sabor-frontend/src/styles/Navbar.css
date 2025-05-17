@@ -8,6 +8,7 @@
 /* Garante espaço no topo do conteúdo */
 body {
   padding-top: 70px; /* Altura da navbar */
+  font-family: Arial, sans-serif;
 }
 
 .navbar {
@@ -18,6 +19,7 @@ body {
   width: 100%;
   z-index: 1000;
   transition: box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
 /* Adiciona sombra quando a classe "scrolled" está ativa */
@@ -29,6 +31,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logo {
@@ -36,8 +40,10 @@ body {
   font-weight: bold;
   color: #333;
   cursor: pointer;
+  user-select: none;
 }
 
+/* Menu tradicional */
 .nav-links {
   display: flex;
   align-items: center;
@@ -64,12 +70,114 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
 .order-button:hover {
   background-color: #f8b400;
 }
 
+/* Responsividade - MENU HAMBURGUER */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  width: 24px;
+  height: 18px;
+  justify-content: space-between;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 3px;
+  background-color: #333;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Menu mobile oculto por padrão */
+.nav-links-mobile {
+  display: none;
+  position: fixed;
+  top: 70px;
+  right: 0;
+  background-color: #fff;
+  width: 70%;
+  max-width: 300px;
+  height: 100vh;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  padding: 24px 16px;
+  gap: 20px;
+  z-index: 1100;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  font-size: 18px;
+}
+
+.nav-links-mobile.open {
+  transform: translateX(0);
+}
+
+.nav-links-mobile .nav-item {
+  color: #333;
+}
+
+.nav-links-mobile .nav-item:hover {
+  color: #f8b400;
+}
+
+/* Ajusta o botão para mobile */
+.order-button-mobile {
+  margin-top: 16px;
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+}
+
+/* Ajuste para o nome do usuário e botão logout na navbar pequena */
+.user-info-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.user-info-mobile button {
+  width: 100%;
+  padding: 12px;
+  background-color: #282828;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-info-mobile button:hover {
+  background-color: #f8b400;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Esconde menu tradicional */
+  }
+
+  .menu-toggle {
+    display: flex; /* Exibe o menu hamburguer */
+  }
+
+  .order-button {
+    display: none; /* Esconde o botão na navbar, fica no menu móvel */
+  }
+}
+
+/* Scroll suave para as seções */
 section {
   scroll-margin-top: 100px; /* Ajuste para o tamanho da sua navbar */
 }
@@ -77,6 +185,8 @@ section {
 html {
   scroll-behavior: smooth;
 }
+
+/* Modal de autenticação */
 .auth-modal {
   position: fixed;
   top: 0;
@@ -132,9 +242,20 @@ html {
   text-align: center;
   color: #0077cc;
   cursor: pointer;
+  user-select: none;
 }
 
 .close-btn {
   margin-top: 10px;
   background-color: #aaa;
+  border: none;
+  padding: 8px;
+  width: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+  background-color: #888;
 }

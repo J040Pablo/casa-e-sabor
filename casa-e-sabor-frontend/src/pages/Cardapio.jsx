@@ -11,8 +11,10 @@ import Croissant from "../assets/croissant-de-chocolate.jpg";
 import Macarrao from "../assets/Macarrao Alfredo.webp";
 import Frango from "../assets/batatas rusticas com frango e bacon.jpg";
 import Prato4 from "../assets/prato4.webp";
-import Bebida1 from "../assets/agua.png";
-import Bebida2 from "../assets/agua.png";
+
+import Agua from "../assets/agua.png";
+import SucoNatural from "../assets/Suco-Natural.png";
+import Refrigerante from "../assets/Refrigerante.png";
 
 import { toast } from "react-toastify";
 
@@ -23,7 +25,7 @@ export default function Cardapio() {
 
   const backendURL =
     window.location.hostname === "localhost"
-      ? "http://localhost:5000" // CORRIGIDO: porta do backend
+      ? "http://localhost:5000"
       : "https://casa-e-sabor.onrender.com";
 
   const adicionarAoCarrinho = (prato) => {
@@ -68,17 +70,24 @@ export default function Cardapio() {
   const bebidas = [
     {
       id: 101,
-      nome: "Suco Natural",
-      descricao: "Refrescante e saudável.",
-      preco: 12.0,
-      imagem: Bebida1,
+      nome: "Água",
+      descricao: "Água mineral pura e refrescante.",
+      preco: 5.0,
+      imagem: Agua,
     },
     {
       id: 102,
+      nome: "Suco Natural",
+      descricao: "Refrescante e saudável.",
+      preco: 12.0,
+      imagem: SucoNatural,
+    },
+    {
+      id: 103,
       nome: "Refrigerante",
       descricao: "Geladinho e saboroso.",
       preco: 8.0,
-      imagem: Bebida2,
+      imagem: Refrigerante,
     },
   ];
 
@@ -105,8 +114,7 @@ export default function Cardapio() {
               />
               <div className="cardapio-item-content">
                 <h3 className="item-title">{p.nome}</h3>
-                <p className="item-description">{p.descricao}</p>{" "}
-                {/* <-- Aqui */}
+                <p className="item-description">{p.descricao}</p>
                 <p className="item-price">R$ {p.preco.toFixed(2)}</p>
                 <button
                   className="adicionar-carrinho-button"
@@ -132,8 +140,7 @@ export default function Cardapio() {
               />
               <div className="cardapio-item-content">
                 <h3 className="item-title">{b.nome}</h3>
-                <p className="item-description">{b.descricao}</p>{" "}
-                {/* <-- Aqui */}
+                <p className="item-description">{b.descricao}</p>
                 <p className="item-price">R$ {b.preco.toFixed(2)}</p>
                 <button
                   className="adicionar-carrinho-button"

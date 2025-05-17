@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/CarrinhoModal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +12,8 @@ export default function CarrinhoModal({
   usuario,
   backendURL,
 }) {
+  const [loading, setLoading] = useState(false); // Estado para controlar loading
+
   if (!visible) return null;
 
   const removerItem = (index) => {
@@ -33,6 +35,7 @@ export default function CarrinhoModal({
       return;
     }
 
+    setLoading(true); // Inicia o loading
     const payload = {
       itens: carrinho.map((item) => ({
         nome: item.nome,
@@ -68,11 +71,10 @@ export default function CarrinhoModal({
       }
     } catch {
       toast.error("Erro ao finalizar o pedido.");
+    } finally {
+      setLoading(false); // Termina o loading
     }
   };
-
-  // Removido o teste de conexão, pois não era utilizado de fato
-  // Se quiser deixar como utilitário futuro, mantenha comentado
 
   return (
     <aside className={`carrinho-modal ${visible ? "visible" : ""}`}>
@@ -88,6 +90,7 @@ export default function CarrinhoModal({
             className="fechar"
             onClick={onFechar}
             aria-label="Fechar carrinho"
+            disabled={loading} // Desabilita fechar enquanto carrega para evitar bugs
           >
             ×
           </button>
@@ -110,6 +113,7 @@ export default function CarrinhoModal({
                     className="remover-item"
                     onClick={() => removerItem(index)}
                     aria-label={`Remover ${item.nome}`}
+                    disabled={loading} // Desabilita remoção enquanto carrega
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
@@ -124,8 +128,18 @@ export default function CarrinhoModal({
             <span>Total:</span> <strong>R$ {total.toFixed(2)}</strong>
           </div>
           {carrinho.length > 0 && (
-            <button className="finalizar" onClick={finalizarPedido}>
-              Finalizar Pedido
+            <button
+              className="finalizar"
+              onClick={finalizarPedido}
+              disabled={loading} // Desabilita botão durante o pedido
+              style={{
+                backgroundColor: loading ? "#999" : "", // Cor cinza quando desabilitado
+                cursor: loading ? "not-allowed" : "pointer",
+              }}
+            >
+              {loading
+                ? "Seu pedido está sendo realizado..."
+                : "Finalizar Pedido"}
             </button>
           )}
         </footer>

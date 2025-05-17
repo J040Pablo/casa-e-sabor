@@ -23,13 +23,13 @@ body {
 
 .welcome-text {
   color: #f8b400;
-  padding-top: 6rem;
-  font-size: 1.5rem;
+  padding-top: 3rem;
+  font-size: 1.2rem;
   margin: 0;
 }
 
 .main-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin: 0.5rem 0;
   font-weight: bold;
 }
@@ -176,12 +176,12 @@ body {
 
 /* Título "Pratos Favoritos" */
 .favorite-dishes h2 {
-  margin-top: -40px; /* Aproxima do título "Pratos Favoritos" do título "Cardápio" */
+  margin-top: -20px; /* Aproxima do título "Pratos Favoritos" do título "Cardápio" */
 }
 
 /* Título do cardápio */
 .menu-title {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   text-align: center;
   margin-bottom: -30px; /* Aproxima do "Pratos Favoritos" */
   font-weight: bold;
@@ -238,23 +238,6 @@ body {
   justify-content: center;
 }
 
-/* Botão */
-.btn {
-  background-color: black;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Efeito hover no botão */
-.btn:hover {
-  background-color: #333; /* Muda para um tom mais escuro quando o botão é pressionado */
-}
-
 /*============================================= Avaliações =====================================================*/
 
 .reviews {
@@ -283,12 +266,6 @@ body {
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 768px) {
-  .reviews-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 .review-card {
   background-color: white;
   border-radius: 12px;
@@ -310,60 +287,59 @@ body {
 .footer {
   background-color: #dddddd;
   color: #000;
-  padding: 20px 20px;
+  padding: 20px;
   font-size: 1rem;
-  min-height: 160px;
+  min-height: 180px;
 }
 
 .footer-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
   max-width: 1200px;
   margin: 0 auto;
-  height: 100%;
+  gap: 20px;
 }
 
 .footer-left {
   flex: 1;
+  min-width: 250px;
   padding: 10px;
-  margin-top: 10px;
 }
 
 .footer-logo {
   font-size: 1.8rem;
   font-weight: bold;
   color: #000000;
-  margin-bottom: 5px;
-  margin-left: -270px; /* Move ligeiramente para a direita */
+  margin-bottom: 10px;
 }
 
 .footer-description {
   font-size: 1rem;
   font-weight: normal;
   color: #000000;
-  margin-top: 0px;
-  margin-bottom: 10px;
+  margin: 0;
   line-height: 1.4;
   max-width: 300px;
-  margin-left: -20px; /* Move ligeiramente para a direita */
 }
 
 .footer-right {
   flex: 1;
+  min-width: 250px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
+  align-items: flex-end;
+  justify-content: flex-start;
   padding: 10px;
   gap: 10px;
-  margin-left: 80px; /* Move todo o bloco para a direita */
 }
 
 .footer-links {
   list-style: none;
   padding: 0;
-  margin: 0 0 10px 355px; /* Move os links para a direita */
+  margin: 0;
+  text-align: right;
 }
 
 .footer-links li {
@@ -383,8 +359,7 @@ body {
 .footer-social {
   display: flex;
   gap: 10px;
-  justify-content: flex-start;
-  margin-left: 350px; /* Alinha com os links */
+  justify-content: flex-end;
 }
 
 .social-icon {
@@ -399,23 +374,41 @@ body {
 }
 
 .footer-bottom {
-  margin-top: 10px;
+  margin-top: 20px;
   font-size: 0.9rem;
   color: #000000;
-  text-align: left;
-  margin-left: 20px;
+  text-align: center;
+  width: 100%;
+  border-top: 1px solid #bbb;
+  padding-top: 10px;
 }
-/* ===================== Responsividade ===================== */
-@media (max-width: 1024px) {
-  .about-content {
+
+/* ========== Responsividade para telas menores (até 768px) ========== */
+@media (min-width: 1200px) {
+  .footer-logo {
+    margin-left: -270px;
+  }
+}
+@media (max-width: 768px) {
+  .info {
     flex-direction: column;
     align-items: center;
+  }
+
+  .info-card {
+    max-width: 90%;
+  }
+
+  /* Seção About */
+  .about-content {
+    flex-direction: column;
     text-align: center;
+    padding: 1rem;
   }
 
   .about-texts,
   .image-container {
-    padding-left: 0;
+    padding: 0;
     text-align: center;
   }
 
@@ -424,10 +417,38 @@ body {
     padding-left: 0;
   }
 
+  /* Grade de pratos */
+  .dishes-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .dish-card {
+    width: 90%;
+  }
+
+  /* Avaliações */
+  .reviews-grid {
+    grid-template-columns: 1fr; /* Uma coluna apenas */
+    padding: 0 1rem;
+  }
+
+  /* Footer */
   .footer-container {
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+
+  .footer-left,
+  .footer-right {
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  .footer-links,
+  .footer-social {
+    margin: 0;
+    justify-content: center;
   }
 
   .footer-logo,
@@ -435,75 +456,6 @@ body {
   .footer-links,
   .footer-social {
     margin-left: 0 !important;
-  }
-
-  .footer-right {
-    margin-left: 0;
-    align-items: center;
-  }
-
-  .footer-links {
-    margin: 0;
-  }
-
-  .footer-social {
-    margin: 10px 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .info {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .dishes-grid {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .footer-container {
-    padding: 1rem;
-  }
-
-  .footer-logo {
-    font-size: 1.5rem;
-  }
-
-  .footer-description {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-title {
-    font-size: 2rem;
-  }
-
-  .subtitle,
-  .about-description,
-  .about-text {
-    font-size: 0.9rem;
-  }
-
-  .btn {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-  }
-
-  .dish-card {
-    width: 90%;
-  }
-
-  .footer {
-    font-size: 0.9rem;
-  }
-
-  .review-text {
-    font-size: 1rem;
-  }
-
-  .review-card {
-    padding: 15px;
+    text-align: center;
   }
 }

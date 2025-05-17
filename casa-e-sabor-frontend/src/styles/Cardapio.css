@@ -147,19 +147,77 @@
 }
 
 /* Responsividade */
-@media (max-width: 700px) {
+
+/* Para tablets e telas pequenas */
+@media (max-width: 900px) {
   .cardapio-items {
-    justify-content: center;
+    gap: 1.5rem;
+    padding: 0 1.5rem 1.5rem 1.5rem;
   }
 
   .cardapio-item {
-    width: 90%;
-    max-width: 350px;
-    height: auto; /* opcional: deixa a altura automática em telas pequenas */
+    width: 45%; /* dois cards por linha */
+    height: auto; /* altura automática */
+  }
+}
+
+/* Para celulares e telas muito pequenas */
+@media (max-width: 600px) {
+  .cardapio-header {
+    padding: 1.5rem 1rem;
   }
 
-  .cardapio-item-content {
-    height: auto;
-    flex-grow: 0;
+  .cardapio-title {
+    font-size: 1.6rem;
+  }
+
+  .cardapio-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+    margin: 1rem;
+  }
+
+  .cardapio-items {
+    gap: 1rem;
+    padding: 0 1rem 1rem 1rem;
+  }
+
+  .cardapio-item {
+    width: 100%; /* 1 card por linha */
+    max-width: 100%;
+    height: auto; /* altura automática para melhor ajuste */
+  }
+
+  .item-title {
+    font-size: 1.1rem;
+  }
+
+  .item-description {
+    font-size: 0.9rem;
+  }
+
+  .item-price {
+    font-size: 1.1rem;
+  }
+
+  .adicionar-carrinho-button {
+    font-size: 13px;
+    padding: 7px 14px;
+  }
+
+  /* Botão fixo Finalizar Pedido fica mais largo e com padding menor */
+  .finalizar-pedido-button {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  /* Para evitar o botão muito largo na horizontal */
+  .finalizar-pedido {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }

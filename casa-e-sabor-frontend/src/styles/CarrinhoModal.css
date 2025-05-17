@@ -13,6 +13,10 @@
   padding: 20px;
   max-height: 70%;
   overflow-y: auto;
+
+  width: 100%; /* Para ocupar toda a largura na base */
+  max-width: 480px; /* Limita o tamanho máximo em telas maiores */
+  margin: 0 auto; /* Centraliza horizontalmente */
 }
 
 /* Animação de Slide Up */
@@ -30,6 +34,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: relative; /* Para o botão fechar absoluto */
 }
 
 /* Título do Carrinho */
@@ -38,6 +43,7 @@
   font-weight: bold;
   color: #333;
   text-align: center;
+  margin: 0;
 }
 
 /* Botão de Fechar */
@@ -51,6 +57,8 @@
   color: #555;
   cursor: pointer;
   transition: color 0.3s ease;
+  padding: 0;
+  line-height: 1;
 }
 
 .fechar:hover {
@@ -65,6 +73,8 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 /* Cada Item do Carrinho */
@@ -83,6 +93,7 @@
   color: #333;
 }
 
+/* Botão remover item */
 .remover-item {
   background: transparent;
   border: none;
@@ -122,4 +133,77 @@
 
 .finalizar:hover {
   background-color: #e5a200;
+}
+
+/* ==== Responsividade ==== */
+
+/* Para telas pequenas (celulares) */
+@media (max-width: 480px) {
+  .carrinho-modal {
+    max-height: 80vh; /* Ocupa até 80% da altura da tela */
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .carrinho-conteudo h2 {
+    font-size: 1.3rem;
+  }
+
+  .item-carrinho {
+    padding: 8px 12px;
+  }
+
+  .item-carrinho span {
+    font-size: 0.9rem;
+  }
+
+  .remover-item {
+    font-size: 1rem;
+  }
+
+  .total {
+    font-size: 1.1rem;
+  }
+
+  .finalizar {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Para tablets e telas médias */
+@media (min-width: 481px) and (max-width: 768px) {
+  .carrinho-modal {
+    max-height: 75vh;
+    max-width: 600px;
+    padding: 20px;
+  }
+
+  .carrinho-conteudo h2 {
+    font-size: 1.4rem;
+  }
+
+  .item-carrinho span {
+    font-size: 1rem;
+  }
+
+  .remover-item {
+    font-size: 1.1rem;
+  }
+
+  .total {
+    font-size: 1.15rem;
+  }
+
+  .finalizar {
+    font-size: 1rem;
+  }
+}
+
+/* Para desktops grandes */
+@media (min-width: 769px) {
+  .carrinho-modal {
+    max-height: 70vh;
+    max-width: 480px;
+  }
 }
