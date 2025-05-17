@@ -1,3 +1,5 @@
+// components/Navbar.jsx
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
@@ -9,30 +11,36 @@ export default function Navbar() {
   const [isLogin, setIsLogin] = useState(true);
   const [user, setUser] = useState(null);
 
-  // Define a URL do backend conforme ambiente (dev ou produção)
   const API_URL =
     window.location.hostname === "localhost"
       ? "http://localhost:5000"
       : "https://casa-e-sabor.onrender.com";
 
+  // Recupera o usuário do localStorage no carregamento inicial
   useEffect(() => {
-    // Tenta recuperar usuário salvo no localStorage
     const savedUser = localStorage.getItem("user");
     if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
+  // Controla a classe "scrolled" para alterar a navbar quando rolar a página
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 0);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Função que faz login ou cadastro conforme o estado isLogin
   const handleAuth = async (e) => {
     e.preventDefault();
     const form = e.target;
     const nome = form.nome?.value;
     const email = form.email.value;
     const senha = form.senha.value;
+
+    if (!isLogin && nome.trim().length < 2) {
+      alert("O nome deve conter no mínimo 2 caracteres.");
+      return;
+    }
 
     try {
       if (isLogin) {
@@ -43,10 +51,12 @@ export default function Navbar() {
           body: JSON.stringify({ email, senha }),
         });
         const data = await res.json();
+
         if (!res.ok) {
           alert(data.mensagem || data.erro || "Erro no login");
           return;
         }
+
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.usuario));
         setUser(data.usuario);
@@ -59,10 +69,12 @@ export default function Navbar() {
           body: JSON.stringify({ nome, email, senha }),
         });
         const data = await res.json();
+
         if (!res.ok) {
           alert(data.mensagem || data.erro || "Erro no cadastro");
           return;
         }
+
         alert("Cadastro realizado com sucesso! Faça login.");
         setIsLogin(true);
         form.reset();
@@ -72,11 +84,12 @@ export default function Navbar() {
     }
   };
 
+  // Logout, limpa o localStorage e remove usuário do estado
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
-    navigate("/"); // redireciona para a home
+    navigate("/");
   };
 
   return (
@@ -84,8 +97,17 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <div className="container">
           <div className="logo" onClick={() => navigate("/")}>
-            Casa & Sabor
+            Casa
+            <span className="br-small">
+              <br />
+            </span>
+            &amp;
+            <span className="br-small">
+              <br />
+            </span>
+            Sabor
           </div>
+
           <div className="nav-links">
             <a className="nav-item" href="#about">
               Sobre Nós
@@ -98,24 +120,26 @@ export default function Navbar() {
             </a>
           </div>
 
-          {user ? (
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ fontWeight: "bold" }}>Olá, {user.nome}</span>
-              <button className="order-button" onClick={handleLogout}>
-                Sair
+          <div className="user-info">
+            {user ? (
+              <>
+                <span className="user-greeting">Olá, {user.nome}</span>
+                <button className="order-button" onClick={handleLogout}>
+                  Sair
+                </button>
+              </>
+            ) : (
+              <button
+                className="order-button"
+                onClick={() => {
+                  setIsLogin(true);
+                  setShowAuthModal(true);
+                }}
+              >
+                Entrar
               </button>
-            </div>
-          ) : (
-            <button
-              className="order-button"
-              onClick={() => {
-                setIsLogin(true);
-                setShowAuthModal(true);
-              }}
-            >
-              Entrar
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </nav>
 
@@ -129,6 +153,7 @@ export default function Navbar() {
                   type="text"
                   name="nome"
                   placeholder="Seu nome"
+                  minLength={2}
                   required
                 />
               )}
@@ -145,7 +170,6 @@ export default function Navbar() {
             <p
               onClick={() => setIsLogin((prev) => !prev)}
               className="switch-mode"
-              style={{ cursor: "pointer" }}
             >
               {isLogin
                 ? "Não tem conta? Cadastre-se"

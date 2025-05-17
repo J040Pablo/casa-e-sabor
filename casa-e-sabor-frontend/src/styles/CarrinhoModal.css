@@ -1,31 +1,40 @@
 /* Modal do Carrinho */
 .carrinho-modal {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
-  background: #ffffff;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5); /* Fundo escurecido para destacar o modal */
   z-index: 1000;
-  animation: slideUp 0.4s ease-out;
   padding: 20px;
-  max-height: 70%;
-  overflow-y: auto;
-
-  width: 100%; /* Para ocupar toda a largura na base */
-  max-width: 480px; /* Limita o tamanho máximo em telas maiores */
-  margin: 0 auto; /* Centraliza horizontalmente */
 }
 
-/* Animação de Slide Up */
-@keyframes slideUp {
+.carrinho-container {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-out;
+  padding: 25px;
+  position: relative;
+}
+
+/* Animação de Fade In */
+@keyframes fadeIn {
   from {
-    transform: translateY(100%);
+    opacity: 0;
+    transform: scale(0.9);
   }
   to {
-    transform: translateY(0);
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -49,8 +58,8 @@
 /* Botão de Fechar */
 .fechar {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 0;
+  right: 0;
   background: transparent;
   border: none;
   font-size: 1.5rem;
@@ -139,10 +148,10 @@
 
 /* Para telas pequenas (celulares) */
 @media (max-width: 480px) {
-  .carrinho-modal {
-    max-height: 80vh; /* Ocupa até 80% da altura da tela */
-    padding: 15px;
-    border-radius: 15px 15px 0 0;
+  .carrinho-container {
+    max-height: 85vh;
+    padding: 20px;
+    width: 90%;
   }
 
   .carrinho-conteudo h2 {
@@ -173,10 +182,10 @@
 
 /* Para tablets e telas médias */
 @media (min-width: 481px) and (max-width: 768px) {
-  .carrinho-modal {
-    max-height: 75vh;
-    max-width: 600px;
-    padding: 20px;
+  .carrinho-container {
+    max-height: 80vh;
+    max-width: 450px;
+    padding: 22px;
   }
 
   .carrinho-conteudo h2 {
@@ -202,8 +211,8 @@
 
 /* Para desktops grandes */
 @media (min-width: 769px) {
-  .carrinho-modal {
-    max-height: 70vh;
+  .carrinho-container {
+    max-height: 75vh;
     max-width: 480px;
   }
 }

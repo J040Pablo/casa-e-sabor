@@ -2,6 +2,8 @@
 .cardapio {
   font-family: Arial, sans-serif;
   color: #333;
+  padding-top: 80px;
+  padding: 3.5rem 0 0 0; /* adiciona 2rem no topo */
 }
 
 .cardapio-header {
@@ -119,11 +121,16 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
+  width: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .finalizar-pedido-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background-color: #d49c00;
   color: white;
@@ -135,6 +142,8 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin: 0 auto;
+  white-space: nowrap;
 }
 
 .finalizar-pedido-button:hover {
@@ -158,6 +167,11 @@
   .cardapio-item {
     width: 45%; /* dois cards por linha */
     height: auto; /* altura automática */
+  }
+
+  .finalizar-pedido {
+    width: auto;
+    max-width: 90%;
   }
 }
 
@@ -212,12 +226,19 @@
   .finalizar-pedido-button {
     padding: 10px 18px;
     font-size: 14px;
+    width: auto;
+    min-width: 160px;
+    max-width: 100%;
   }
 
-  /* Para evitar o botão muito largo na horizontal */
+  /* Centralização perfeita do botão */
   .finalizar-pedido {
-    width: 90%;
+    width: auto;
+    max-width: 90%;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
   }
 }

@@ -5,6 +5,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  padding: 6rem 0 0 0; /* adiciona 2rem no topo */
   color: #333;
   background-color: #f9f9f9;
 }
@@ -87,7 +88,7 @@ body {
   color: #555;
 }
 
-/* =================================================== About Section =======================================================*/
+/* About Section */
 .about {
   padding: 4rem 2rem;
   background-color: #f9f9f9;
@@ -95,64 +96,47 @@ body {
 
 .about-content {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 3rem;
   max-width: 1200px;
   margin: 0 auto;
-  flex-wrap: wrap;
 }
 
 .section-title {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  text-align: left; /* Mantém o alinhamento à esquerda */
-  flex: 1; /* Garante que o título ocupe o espaço necessário */
-  padding-left: 20px; /* Adiciona um pouco de espaço à esquerda */
-}
-
-/* Texto de descrição */
-.about-text {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
+  text-align: left;
+  flex: 1;
+  padding-left: 20px;
 }
 
 .about-texts {
   flex: 1;
   min-width: 280px;
-  text-align: left; /* Garante alinhamento à esquerda */
-  padding-left: 1rem; /* Move o conteúdo mais para a esquerda */
+  text-align: left;
+  padding-left: 1rem;
 }
 
 .about-subtitle {
   font-size: 1.4rem;
   font-weight: bold;
-  color: #000;
-  margin-bottom: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.image-container {
-  text-align: center;
+  margin: 1.5rem 0 0.5rem;
 }
 
 .about-description {
-  color: #828282;
   font-size: 1rem;
+  color: #555;
   line-height: 1.6;
-  text-align: left; /* Evita justificação */
 }
 
 .image-container {
   flex: 1;
+  min-width: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 280px;
 }
 
 .about-image {
@@ -160,54 +144,43 @@ body {
   height: auto;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 30px; /* Adiciona espaço acima da imagem */
+  margin-top: 30px;
 }
 
-/*============================================= Pratos Favoritos (Cardápio) =====================================================*/
-
-/* Seção de pratos favoritos */
+/* Pratos Favoritos (Cardápio) */
 .favorite-dishes {
-  font-size: 2rem;
-  padding: 64px 32px;
   background-color: #f9f9f9;
+  padding: 64px 32px;
   text-align: center;
-  margin-top: -20px; /* Aproxima do conteúdo anterior */
 }
 
-/* Título "Pratos Favoritos" */
-.favorite-dishes h2 {
-  margin-top: -20px; /* Aproxima do título "Pratos Favoritos" do título "Cardápio" */
-}
-
-/* Título do cardápio */
 .menu-title {
   font-size: 1.3rem;
-  text-align: center;
-  margin-bottom: -30px; /* Aproxima do "Pratos Favoritos" */
   font-weight: bold;
   color: #f8b400;
+  margin-bottom: 1rem;
 }
 
-/* Grade de pratos (layout flex) */
 .dishes-grid {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 32px;
-  margin-top: 24px;
-  flex-wrap: wrap;
-  margin-top: -20px;
 }
 
-/* Cartão de prato */
 .dish-card {
   background-color: #fff;
+  width: 250px;
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 250px;
+  transition: transform 0.2s ease;
 }
 
-/* Imagem do prato */
+.dish-card:hover {
+  transform: scale(1.03);
+}
+
 .dish-image {
   width: 100%;
   height: 160px;
@@ -215,62 +188,56 @@ body {
   border-radius: 8px;
 }
 
-/* Nome do prato */
 .dish-name {
   margin-top: 12px;
   font-size: 18px;
   color: #333;
 }
 
-/* Descrição do prato */
 .dish-description {
-  color: #828282;
   font-size: 14px;
+  color: #828282;
   margin-top: 8px;
 }
 
-/* Container do botão "Ver Cardápio" */
 .see-menu-button-container {
-  text-align: center;
-  width: 100%;
-  margin-top: 32px; /* Coloca o botão embaixo com um bom espaçamento */
+  margin-top: 32px;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
-/*============================================= Avaliações =====================================================*/
-
+/* Avaliações */
 .reviews {
   padding: 60px 20px;
-  background-color: rgb(252, 252, 252);
+  background-color: #fcfcfc;
   text-align: center;
 }
 
-/* Título da seção de Avaliações - novo estilo */
 .reviews .section-title {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente, se necessário */
-  height: 100px; /* Define uma altura para garantir que o título fique bem posicionado */
 }
 
-/* Estilo das avaliações */
 .reviews-grid {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 20px;
   max-width: 900px;
   margin: 0 auto;
-  grid-template-columns: 1fr;
 }
 
 .review-card {
-  background-color: white;
+  background-color: #fff;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.review-card:hover {
+  transform: scale(1.02);
 }
 
 .review-text {
@@ -283,26 +250,29 @@ body {
   font-weight: bold;
   color: #333;
 }
-/*================================================ Footer Styles ========================================================*/
+
+/* Footer Styles */
 .footer {
   background-color: #dddddd;
   color: #000;
   padding: 20px;
   font-size: 1rem;
-  min-height: 180px;
 }
 
 .footer-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
+  gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  gap: 20px;
 }
 
 .footer-left {
+  padding: 10px;
+  min-width: 250px;
+}
+.footer-right {
   flex: 1;
   min-width: 250px;
   padding: 10px;
@@ -311,27 +281,22 @@ body {
 .footer-logo {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #000000;
-  margin-bottom: 10px;
+  margin-bottom: 8px; /* espaço entre título e descrição */
+  text-align: left; /* garante alinhamento à esquerda */
 }
 
 .footer-description {
   font-size: 1rem;
-  font-weight: normal;
-  color: #000000;
-  margin: 0;
   line-height: 1.4;
   max-width: 300px;
+  margin: 0; /* remove margem padrão para evitar desalinhamento */
+  text-align: left; /* alinha à esquerda */
 }
 
 .footer-right {
-  flex: 1;
-  min-width: 250px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: flex-start;
-  padding: 10px;
   gap: 10px;
 }
 
@@ -348,8 +313,8 @@ body {
 
 .footer-links a {
   text-decoration: none;
-  color: #000000;
-  font-size: 1rem;
+  color: #000;
+  transition: color 0.2s ease;
 }
 
 .footer-links a:hover {
@@ -364,8 +329,7 @@ body {
 
 .social-icon {
   font-size: 28px;
-  color: #333;
-  transition: transform 0.3s;
+  transition: transform 0.2s ease;
 }
 
 .social-icon:hover {
@@ -375,87 +339,71 @@ body {
 
 .footer-bottom {
   margin-top: 20px;
-  font-size: 0.9rem;
-  color: #000000;
-  text-align: center;
-  width: 100%;
   border-top: 1px solid #bbb;
   padding-top: 10px;
+  text-align: center;
+  font-size: 0.9rem;
 }
 
-/* ========== Responsividade para telas menores (até 768px) ========== */
-@media (min-width: 1200px) {
-  .footer-logo {
-    margin-left: -270px;
-  }
-}
-@media (max-width: 768px) {
-  .info {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .info-card {
-    max-width: 90%;
-  }
-
-  /* Seção About */
+/* Responsividade */
+@media (max-width: 1024px) {
   .about-content {
     flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 1rem;
   }
-
   .about-texts,
   .image-container {
     padding: 0;
-    text-align: center;
   }
+}
 
-  .section-title {
-    text-align: center;
-    padding-left: 0;
-  }
-
-  /* Grade de pratos */
-  .dishes-grid {
+@media (max-width: 768px) {
+  .info {
     flex-direction: column;
-    align-items: center;
   }
-  .dish-card {
-    width: 90%;
+  .dishes-grid {
+    gap: 16px;
   }
-
-  /* Avaliações */
-  .reviews-grid {
-    grid-template-columns: 1fr; /* Uma coluna apenas */
-    padding: 0 1rem;
-  }
-
-  /* Footer */
   .footer-container {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-
-  .footer-left,
   .footer-right {
-    margin: 0;
-    padding: 10px 0;
+    align-items: center;
   }
-
-  .footer-links,
+  .footer-links {
+    text-align: center;
+  }
   .footer-social {
-    margin: 0;
     justify-content: center;
   }
+}
 
-  .footer-logo,
-  .footer-description,
-  .footer-links,
-  .footer-social {
-    margin-left: 0 !important;
-    text-align: center;
+@media (max-width: 480px) {
+  .welcome-text {
+    font-size: 1rem;
+  }
+  .main-title {
+    font-size: 1.5rem;
+  }
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  .info-card {
+    max-width: 90%;
+    margin-bottom: 1rem;
+  }
+  .dish-card {
+    width: 90%;
+  }
+  .footer-left,
+  .footer-right {
+    width: 100%;
   }
 }

@@ -21,8 +21,9 @@ export default function Home() {
         <h2 className="welcome-text">Bem-Vindo</h2>
         <h1 className="main-title">Casa & Sabor</h1>
         <p className="subtitle">
-          Subheading that sets up context, shares more info about the website,
-          or generally gets people psyched to keep scrolling.
+          Descubra o sabor caseiro que conquista corações. Aqui na Casa & Sabor,
+          unimos tradição e qualidade para transformar cada refeição em uma
+          experiência única. Role para saber mais!
         </p>
         <button className="btn" onClick={() => navigate("/cardapio")}>
           Ver Cardápio
