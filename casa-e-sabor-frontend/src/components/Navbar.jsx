@@ -1,8 +1,12 @@
 // components/Navbar.jsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PedidosModal from "./PedidosModal";
 import "../styles/Navbar.css";
+import defaultAvatar from "../assets/default-avatar.svg";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -10,26 +14,40 @@ export default function Navbar() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [user, setUser] = useState(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showPedidosModal, setShowPedidosModal] = useState(false);
+  const profileRef = useRef();
 
   const API_URL =
     window.location.hostname === "localhost"
       ? "http://localhost:5000"
       : "https://casa-e-sabor.onrender.com";
 
-  // Recupera o usuário do localStorage no carregamento inicial
+  // Checa usuário no localStorage
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
-  // Controla a classe "scrolled" para alterar a navbar quando rolar a página
+  // Fecha menu de perfil ao clicar fora
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 0);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Função que faz login ou cadastro conforme o estado isLogin
+  // Efeito de scroll
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Login / Cadastro
   const handleAuth = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -38,62 +56,53 @@ export default function Navbar() {
     const senha = form.senha.value;
 
     if (!isLogin && nome.trim().length < 2) {
-      alert("O nome deve conter no mínimo 2 caracteres.");
+      toast.warning("O nome deve conter no mínimo 2 caracteres.");
       return;
     }
 
     try {
+      const route = isLogin ? "/api/auth/login" : "/api/auth/register";
+      const res = await fetch(`${API_URL}${route}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, email, senha }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.mensagem || data.erro || "Erro na autenticação");
+        return;
+      }
+
       if (isLogin) {
-        // Login
-        const res = await fetch(`${API_URL}/api/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, senha }),
-        });
-        const data = await res.json();
-
-        if (!res.ok) {
-          alert(data.mensagem || data.erro || "Erro no login");
-          return;
-        }
-
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.usuario));
         setUser(data.usuario);
         setShowAuthModal(false);
+        toast.success(`Bem-vindo(a), ${data.usuario.nome}!`);
       } else {
-        // Registro
-        const res = await fetch(`${API_URL}/api/auth/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nome, email, senha }),
-        });
-        const data = await res.json();
-
-        if (!res.ok) {
-          alert(data.mensagem || data.erro || "Erro no cadastro");
-          return;
-        }
-
-        alert("Cadastro realizado com sucesso! Faça login.");
+        toast.success("Cadastro realizado com sucesso! Faça login.");
         setIsLogin(true);
         form.reset();
       }
     } catch {
-      alert("Erro ao comunicar com o servidor.");
+      toast.error("Erro ao comunicar com o servidor.");
     }
   };
 
-  // Logout, limpa o localStorage e remove usuário do estado
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
+    setShowProfileMenu(false);
     navigate("/");
+    toast.info("Você saiu da conta.");
   };
 
   return (
     <>
+      <ToastContainer position="top-right" autoClose={3000} />
       <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <div className="container">
           <div className="logo" onClick={() => navigate("/")}>
@@ -120,13 +129,22 @@ export default function Navbar() {
             </a>
           </div>
 
-          <div className="user-info">
+          <div className="user-info" ref={profileRef}>
             {user ? (
               <>
-                <span className="user-greeting">Olá, {user.nome}</span>
-                <button className="order-button" onClick={handleLogout}>
-                  Sair
-                </button>
+                <img
+                  src={user.profileImage || defaultAvatar}
+                  alt="Avatar"
+                  className="profile-avatar"
+                  onClick={() => setShowProfileMenu((prev) => !prev)}
+                />
+
+                {showProfileMenu && (
+                  <ul className="profile-menu-dropdown">
+                    <li onClick={() => setShowPedidosModal(true)}>Pedidos</li>
+                    <li onClick={handleLogout}>Sair da conta</li>
+                  </ul>
+                )}
               </>
             ) : (
               <button
@@ -143,6 +161,13 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Modal de Pedidos */}
+      <PedidosModal
+        show={showPedidosModal}
+        onClose={() => setShowPedidosModal(false)}
+      />
+
+      {/* Modal de Login/Cadastro */}
       {showAuthModal && (
         <div className="auth-modal">
           <div className="auth-box">
@@ -166,16 +191,14 @@ export default function Navbar() {
               />
               <button type="submit">{isLogin ? "Entrar" : "Cadastrar"}</button>
             </form>
-
             <p
-              onClick={() => setIsLogin((prev) => !prev)}
               className="switch-mode"
+              onClick={() => setIsLogin((prev) => !prev)}
             >
               {isLogin
                 ? "Não tem conta? Cadastre-se"
                 : "Já tem conta? Faça login"}
             </p>
-
             <button
               className="close-btn"
               onClick={() => setShowAuthModal(false)}

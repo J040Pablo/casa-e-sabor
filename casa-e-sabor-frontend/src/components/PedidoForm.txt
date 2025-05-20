@@ -85,3 +85,17 @@ const PedidoForm = () => {
 };
 
 export default PedidoForm;
+      <ToastContainer position="top-right" autoClose={3000} />
+      <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+        <div className="container">
+          <div className="logo" onClick={() => navigate("/")}>
+            Casa
+            <span className="br-small">
+              <br />
+            </span>
+            &amp;
+            <span className="br-small">
+              <br />
+            </span>
+            Sabor
+          </div>

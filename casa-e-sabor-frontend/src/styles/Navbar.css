@@ -7,27 +7,29 @@
   box-sizing: border-box;
 }
 
-/* Removendo padding-top fixo do body, será definido via JavaScript */
+/* Fonte padrão */
 body {
   font-family: Arial, sans-serif;
   /* O padding-top será definido dinamicamente via JavaScript */
 }
 
+/* Navbar principal */
 .navbar {
   background-color: #fff;
-  padding: 20px 20px;
+  padding: 30px;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
   transition: all 0.3s ease;
-  height: auto; /* Permite que a altura se ajuste ao conteúdo */
+  height: auto; /* Ajusta ao conteúdo */
 }
 
 .navbar.scrolled {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Container flexível */
 .container {
   position: relative;
   display: flex;
@@ -65,8 +67,11 @@ body {
   margin: 0 5px;
 }
 
-/* Nav-links */
+/* Nav-links (centralizado) */
 .nav-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 32px;
@@ -77,13 +82,14 @@ body {
   font-size: 16px;
   color: #555;
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
 
 .nav-item:hover {
   color: #f8b400;
 }
 
-/* Bloco do usuário e botão */
+/* Bloco do usuário/avatar */
 .user-info {
   display: flex;
   align-items: center;
@@ -91,6 +97,9 @@ body {
   color: #333;
   font-weight: bold;
   font-size: 16px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .user-greeting {
@@ -111,15 +120,38 @@ body {
   transition: background-color 0.3s ease;
   white-space: nowrap;
 }
-
 .order-button:hover {
   background-color: #f8b400;
 }
 
-/* Scroll suave */
+/* Avatar de perfil */
+.profile-avatar {
+  margin-top: -20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
 
-html {
-  scroll-behavior: smooth;
+/* Dropdown do perfil */
+.profile-menu-dropdown {
+  position: absolute;
+  top: 60px; /* ajuste conforme altura da navbar */
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-menu-dropdown li {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.profile-menu-dropdown li:hover {
+  background-color: #f5f5f5;
 }
 
 /* Modal de autenticação */
@@ -169,7 +201,6 @@ html {
   border-radius: 4px;
   cursor: pointer;
 }
-
 .auth-box button:hover {
   background-color: #f8b400;
 }
@@ -192,9 +223,13 @@ html {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .close-btn:hover {
   background-color: #888;
+}
+
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Responsividade */
@@ -202,82 +237,56 @@ html {
   .container {
     padding: 0 10px;
   }
-
   .nav-links {
     gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
+  /* Ajustes mobile */
   .navbar {
-    padding: 15px 10px;
+    padding: 40px 15px; /* aumenta o espaçamento interno */
+    height: auto; /* ou defina um valor fixo, como 100px */
   }
-
-  .container {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+  .navbar .container {
+    position: relative;
   }
-
-  .logo {
-    font-size: 20px;
-    margin-bottom: 10px;
+  .navbar .user-info {
+    top: 15px;
+    right: 15px;
   }
-
   .nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin: 5px 0;
-  }
-
-  .nav-item {
-    font-size: 14px;
-    padding: 5px 10px;
-  }
-
-  .user-info {
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 5px;
-  }
-
-  .user-greeting {
-    font-size: 14px;
-  }
-
-  .order-button {
-    padding: 6px 12px;
-    font-size: 14px;
+    top: 10px; /* evita sobrepor o avatar */
   }
 }
 
 @media (max-width: 480px) {
-  .auth-box {
-    padding: 20px;
+  .navbar {
+    padding: 45px 15px;
+    height: auto;
   }
-
   .logo {
     font-size: 18px;
+    margin-top: -20px;
   }
-
   .nav-links {
     gap: 10px;
   }
-
   .nav-item {
     font-size: 13px;
     padding: 4px 8px;
   }
-
   .user-greeting {
     font-size: 13px;
     max-width: 120px;
   }
-
   .order-button {
     padding: 5px 10px;
     font-size: 13px;
+  }
+  .profile-avatar {
+    margin-top: -20px;
+    width: 40px;
+    height: 40px;
   }
 }

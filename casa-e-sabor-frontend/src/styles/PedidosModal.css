@@ -1,0 +1,178 @@
+/* Overlay semi‑transparente */
+.pedidos-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: flex-end; /* vem da direita */
+  align-items: flex-start; /* no topo */
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Modal de Pedidos */
+.pedidos-modal {
+  background: #ffffff;
+  border-radius: 20px; /* todos os cantos arredondados */
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  margin: 0 20px 20px 0; /* espaço à direita e topo */
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease-out forwards;
+  overflow: hidden;
+}
+
+/* Animações */
+@keyframes slideUp {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Cabeçalho */
+.pedidos-modal header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+/* Título */
+.pedidos-modal header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Botão fechar */
+.pedidos-modal header .close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s;
+}
+.pedidos-modal header .close:hover {
+  color: #f8b400;
+}
+
+/* Conteúdo (lista de pedidos, estado) */
+.pedidos-modal .content {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Lista de pedidos */
+.pedidos-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Cada item de pedido */
+.pedido-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f9f9f9;
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.pedido-item strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
+}
+.pedido-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+.pedido-item div:last-child {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Mensagens de estado */
+/* Status e data */
+.pedido-info {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Lista de itens */
+.pedido-itens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.pedido-itens li {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Total */
+.pedido-total {
+  margin-top: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #222;
+}
+.pedidos-modal .content p {
+  text-align: center;
+  color: #555;
+}
+.pedidos-modal .content .error {
+  color: #e74c3c;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .pedidos-modal {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 15px; /* cantos superiores e inferiores */
+  }
+  .pedidos-modal header h3 {
+    font-size: 1.3rem;
+  }
+  .pedido-item {
+    padding: 10px 12px;
+  }
+  .pedido-item p,
+  .pedido-item strong {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .pedidos-modal {
+    max-width: 600px;
+  }
+}
