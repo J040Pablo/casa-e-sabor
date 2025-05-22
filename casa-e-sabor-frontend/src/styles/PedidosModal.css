@@ -7,21 +7,22 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
   display: flex;
-  justify-content: flex-end; /* vem da direita */
-  align-items: flex-start; /* no topo */
+  justify-content: flex-end;
+  align-items: flex-start;
   z-index: 1000;
   animation: fadeIn 0.3s ease-out;
+  padding: clamp(10px, 2vw, 20px);
 }
 
 /* Modal de Pedidos */
 .pedidos-modal {
   background: #ffffff;
-  border-radius: 20px; /* todos os cantos arredondados */
+  border-radius: clamp(15px, 3vw, 20px);
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 480px;
-  max-height: 80vh;
-  margin: 0 20px 20px 0; /* espaço à direita e topo */
+  max-width: min(480px, 95vw);
+  max-height: 85vh;
+  margin: 0;
   display: flex;
   flex-direction: column;
   animation: slideUp 0.4s ease-out forwards;
@@ -48,38 +49,70 @@
 
 /* Cabeçalho */
 .pedidos-modal header {
-  padding: 16px;
+  padding: clamp(12px, 2vw, 16px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #eee;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 /* Título */
 .pedidos-modal header h3 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: clamp(1.3rem, 3vw, 1.5rem);
   color: #333;
+  font-weight: 600;
 }
 
 /* Botão fechar */
 .pedidos-modal header .close {
   background: transparent;
   border: none;
-  font-size: 1.5rem;
+  font-size: clamp(1.3rem, 3vw, 1.5rem);
   cursor: pointer;
   color: #555;
-  transition: color 0.3s;
+  transition: all 0.3s ease;
+  width: clamp(30px, 5vw, 40px);
+  height: clamp(30px, 5vw, 40px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 .pedidos-modal header .close:hover {
   color: #f8b400;
+  background-color: rgba(248, 180, 0, 0.1);
+  transform: scale(1.1);
 }
 
-/* Conteúdo (lista de pedidos, estado) */
+/* Conteúdo */
 .pedidos-modal .content {
-  padding: 16px;
+  padding: clamp(12px, 2vw, 16px);
   overflow-y: auto;
   flex: 1;
+}
+
+/* Scrollbar personalizada */
+.pedidos-modal .content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pedidos-modal .content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.pedidos-modal .content::-webkit-scrollbar-thumb {
+  background: #f8b400;
+  border-radius: 3px;
+}
+
+.pedidos-modal .content::-webkit-scrollbar-thumb:hover {
+  background: #e5a200;
 }
 
 /* Lista de pedidos */
@@ -89,7 +122,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: clamp(10px, 2vw, 12px);
 }
 
 /* Cada item de pedido */
@@ -97,82 +130,123 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: clamp(6px, 1.5vw, 8px);
   background: #f9f9f9;
-  padding: 12px 16px;
-  border-radius: 10px;
+  padding: clamp(10px, 2vw, 12px) clamp(12px, 2vw, 16px);
+  border-radius: clamp(8px, 1.5vw, 10px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
-.pedido-item strong {
-  display: block;
-  margin-bottom: 4px;
-  color: #333;
+
+.pedido-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
-.pedido-item p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #666;
+
+.pedido-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
-.pedido-item div:last-child {
-  font-weight: bold;
+
+.pedido-header strong {
+  font-size: clamp(0.9rem, 2vw, 1rem);
   color: #333;
 }
 
-/* Mensagens de estado */
-/* Status e data */
-.pedido-info {
-  font-size: 0.9rem;
-  color: #555;
+.status {
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  color: #f8b400;
+  font-weight: 500;
+  padding: 4px 8px;
+  background: rgba(248, 180, 0, 0.1);
+  border-radius: 4px;
+}
+
+.data {
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  color: #666;
+  margin: 0;
 }
 
 /* Lista de itens */
-.pedido-itens {
+.itens-list {
   list-style: none;
   margin: 0;
   padding: 0;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.pedido-itens li {
-  font-size: 0.9rem;
+.itens-list li {
+  font-size: clamp(0.85rem, 1.8vw, 0.9rem);
   color: #444;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.itens-list li:last-child {
+  border-bottom: none;
 }
 
 /* Total */
-.pedido-total {
-  margin-top: 8px;
+.total {
+  margin-top: clamp(6px, 1.5vw, 8px);
   font-weight: bold;
-  font-size: 1rem;
+  font-size: clamp(0.95rem, 2vw, 1rem);
   color: #222;
+  width: 100%;
+  text-align: right;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+/* Mensagens de estado */
 .pedidos-modal .content p {
   text-align: center;
   color: #555;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  padding: clamp(20px, 4vw, 30px);
 }
+
 .pedidos-modal .content .error {
   color: #e74c3c;
 }
 
-/* Responsividade */
+/* Media Queries */
 @media (max-width: 480px) {
+  .pedidos-overlay {
+    padding: 0;
+  }
+
   .pedidos-modal {
-    max-width: 100%;
-    margin: 0;
-    border-radius: 15px; /* cantos superiores e inferiores */
+    max-height: 100vh;
+    border-radius: 0;
   }
-  .pedidos-modal header h3 {
-    font-size: 1.3rem;
+
+  .pedido-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  .pedido-item {
-    padding: 10px 12px;
-  }
-  .pedido-item p,
-  .pedido-item strong {
-    font-size: 0.9rem;
+
+  .status {
+    align-self: flex-start;
   }
 }
+
 @media (min-width: 481px) and (max-width: 768px) {
   .pedidos-modal {
-    max-width: 600px;
+    max-width: min(600px, 95vw);
+  }
+}
+
+@media (min-width: 769px) {
+  .pedidos-modal {
+    max-width: 480px;
   }
 }

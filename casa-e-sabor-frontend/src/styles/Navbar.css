@@ -10,23 +10,23 @@
 /* Fonte padrão */
 body {
   font-family: Arial, sans-serif;
-  /* O padding-top será definido dinamicamente via JavaScript */
 }
 
 /* Navbar principal */
 .navbar {
   background-color: #fff;
-  padding: 30px;
+  padding: clamp(15px, 3vw, 30px);
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
   transition: all 0.3s ease;
-  height: auto; /* Ajusta ao conteúdo */
+  height: auto;
 }
 
 .navbar.scrolled {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: clamp(10px, 2vw, 20px);
 }
 
 /* Container flexível */
@@ -37,121 +37,145 @@ body {
   justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 clamp(10px, 2vw, 15px);
+  flex-wrap: wrap;
+  gap: clamp(8px, 2vw, 16px);
 }
 
 /* Logo */
-.logo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .logo {
   display: flex;
   align-items: center;
-  font-size: 24px;
+  font-size: clamp(20px, 4vw, 24px);
   font-weight: bold;
   color: #333;
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
+  transition: all 0.3s ease;
+  padding: clamp(4px, 1vw, 8px);
 }
 
-.logo-text {
-  display: inline-block;
+.logo:hover {
+  transform: scale(1.05);
+  color: #f8b400;
 }
 
-.logo-and {
-  display: inline-block;
-  margin: 0 5px;
-}
-
-/* Nav-links (centralizado) */
+/* Nav-links */
 .nav-links {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: clamp(16px, 3vw, 32px);
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .nav-item {
   text-decoration: none;
-  font-size: 16px;
+  font-size: clamp(14px, 2vw, 16px);
   color: #555;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   white-space: nowrap;
+  padding: clamp(4px, 1vw, 8px);
+  border-radius: 4px;
 }
 
 .nav-item:hover {
   color: #f8b400;
+  transform: translateY(-2px);
+  background-color: rgba(248, 180, 0, 0.1);
 }
 
 /* Bloco do usuário/avatar */
 .user-info {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: clamp(8px, 2vw, 16px);
   color: #333;
   font-weight: bold;
-  font-size: 16px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  font-size: clamp(14px, 2vw, 16px);
+  position: relative;
 }
 
 .user-greeting {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 150px;
+  max-width: min(150px, 30vw);
 }
 
 .order-button {
-  padding: 8px 16px;
+  padding: clamp(6px, 1.5vw, 8px) clamp(12px, 2vw, 16px);
   background-color: #282828;
   color: white;
   border: none;
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   white-space: nowrap;
+  font-size: clamp(14px, 2vw, 16px);
 }
+
 .order-button:hover {
   background-color: #f8b400;
+  transform: translateY(-2px);
 }
 
 /* Avatar de perfil */
 .profile-avatar {
-  margin-top: -20px;
-  width: 40px;
-  height: 40px;
+  width: clamp(32px, 5vw, 40px);
+  height: clamp(32px, 5vw, 40px);
   border-radius: 50%;
   cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.1);
+  border-color: #f8b400;
 }
 
 /* Dropdown do perfil */
 .profile-menu-dropdown {
   position: absolute;
-  top: 60px; /* ajuste conforme altura da navbar */
+  top: 100%;
   right: 0;
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0.5rem 0 0 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 1001;
+  animation: slideDown 0.3s ease-out;
 }
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .profile-menu-dropdown li {
-  padding: 10px 15px;
+  padding: clamp(8px, 1.5vw, 10px) clamp(12px, 2vw, 15px);
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: clamp(14px, 2vw, 16px);
 }
+
 .profile-menu-dropdown li:hover {
   background-color: #f5f5f5;
+  color: #f8b400;
 }
 
 /* Modal de autenticação */
@@ -166,65 +190,111 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  padding: clamp(10px, 2vw, 20px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .auth-box {
   background: white;
-  padding: 32px;
+  padding: clamp(20px, 4vw, 32px);
   border-radius: 12px;
-  max-width: 400px;
-  width: 90%;
-  margin: 0 15px;
+  width: min(400px, 90%);
+  margin: 0 auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .auth-box h2 {
-  margin-bottom: 20px;
+  margin-bottom: clamp(15px, 3vw, 20px);
   text-align: center;
+  font-size: clamp(20px, 4vw, 24px);
+  color: #333;
 }
 
 .auth-box input {
   width: 100%;
-  padding: 10px;
-  margin: 8px 0;
+  padding: clamp(8px, 1.5vw, 10px);
+  margin: clamp(6px, 1.5vw, 8px) 0;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: clamp(14px, 2vw, 16px);
+  transition: all 0.3s ease;
+}
+
+.auth-box input:focus {
+  border-color: #f8b400;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(248, 180, 0, 0.2);
 }
 
 .auth-box button {
   width: 100%;
-  padding: 10px;
+  padding: clamp(8px, 1.5vw, 10px);
   background-color: #282828;
   color: white;
   border: none;
-  margin-top: 12px;
+  margin-top: clamp(10px, 2vw, 12px);
   border-radius: 4px;
   cursor: pointer;
+  font-size: clamp(14px, 2vw, 16px);
+  transition: all 0.3s ease;
 }
+
 .auth-box button:hover {
   background-color: #f8b400;
+  transform: translateY(-2px);
 }
 
 .switch-mode {
-  margin-top: 10px;
+  margin-top: clamp(8px, 2vw, 10px);
   text-align: center;
   color: #0077cc;
   cursor: pointer;
   user-select: none;
+  font-size: clamp(14px, 2vw, 16px);
+  transition: all 0.3s ease;
+}
+
+.switch-mode:hover {
+  color: #f8b400;
+  text-decoration: underline;
 }
 
 .close-btn {
-  margin-top: 10px;
+  margin-top: clamp(8px, 2vw, 10px);
   background-color: #aaa;
   border: none;
-  padding: 8px;
+  padding: clamp(6px, 1.5vw, 8px);
   width: 100%;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-size: clamp(14px, 2vw, 16px);
 }
+
 .close-btn:hover {
   background-color: #888;
+  transform: translateY(-2px);
 }
 
 /* Scroll suave */
@@ -232,61 +302,59 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Responsividade */
+/* Media Queries */
 @media (max-width: 992px) {
-  .container {
-    padding: 0 10px;
-  }
   .nav-links {
-    gap: 20px;
+    gap: clamp(12px, 2vw, 24px);
   }
 }
 
 @media (max-width: 768px) {
-  /* Ajustes mobile */
   .navbar {
-    padding: 40px 15px; /* aumenta o espaçamento interno */
-    height: auto; /* ou defina um valor fixo, como 100px */
+    padding: clamp(10px, 2vw, 15px);
   }
-  .navbar .container {
-    position: relative;
+
+  .container {
+    justify-content: center;
+    gap: clamp(12px, 2vw, 20px);
   }
-  .navbar .user-info {
-    top: 15px;
-    right: 15px;
-  }
+
   .nav-links {
-    top: 10px; /* evita sobrepor o avatar */
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    margin-top: clamp(8px, 2vw, 12px);
+  }
+
+  .user-info {
+    margin-left: auto;
   }
 }
 
 @media (max-width: 480px) {
   .navbar {
-    padding: 45px 15px;
-    height: auto;
+    padding: clamp(8px, 1.5vw, 12px);
   }
+
   .logo {
-    font-size: 18px;
-    margin-top: -20px;
+    font-size: clamp(18px, 3vw, 20px);
   }
-  .nav-links {
-    gap: 10px;
-  }
+
   .nav-item {
-    font-size: 13px;
-    padding: 4px 8px;
+    font-size: clamp(13px, 1.8vw, 14px);
   }
+
   .user-greeting {
-    font-size: 13px;
-    max-width: 120px;
+    display: none;
   }
+
   .order-button {
-    padding: 5px 10px;
-    font-size: 13px;
+    padding: clamp(4px, 1vw, 6px) clamp(8px, 1.5vw, 12px);
+    font-size: clamp(13px, 1.8vw, 14px);
   }
+
   .profile-avatar {
-    margin-top: -20px;
-    width: 40px;
-    height: 40px;
+    width: clamp(28px, 4vw, 32px);
+    height: clamp(28px, 4vw, 32px);
   }
 }

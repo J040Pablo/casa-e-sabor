@@ -1,0 +1,253 @@
+/* App.css */
+
+/* Reset e estilos globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #f8b400;
+  --secondary-color: #282828;
+  --text-color: #333;
+  --light-text: #fff;
+  --background-color: #f9f9f9;
+  --card-background: #fff;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  overflow-x: hidden;
+}
+
+/* Container principal */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+/* Botões */
+.btn {
+  display: inline-block;
+  padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1.2rem, 2vw, 1.5rem);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow);
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: clamp(0.8rem, 2vw, 1rem);
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+/* Parágrafos */
+p {
+  margin-bottom: clamp(0.8rem, 2vw, 1rem);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+/* Links */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+/* Imagens */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+}
+
+.grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+}
+
+/* Flex */
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+/* Espaçamento */
+.section {
+  padding: clamp(2rem, 6vw, 4rem) 0;
+}
+
+.section-sm {
+  padding: clamp(1rem, 3vw, 2rem) 0;
+}
+
+/* Utilitários */
+.text-center {
+  text-align: center;
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 clamp(0.8rem, 2vw, 1.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 clamp(0.6rem, 1.5vw, 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 clamp(0.5rem, 1vw, 0.8rem);
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .card {
+    padding: clamp(0.8rem, 1.5vw, 1rem);
+  }
+} 

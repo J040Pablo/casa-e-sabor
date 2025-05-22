@@ -1,19 +1,23 @@
 #root {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 2rem);
   text-align: center;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  height: clamp(4em, 8vw, 6em);
+  padding: clamp(1em, 2vw, 1.5em);
   will-change: filter;
-  transition: filter 300ms;
+  transition: all 300ms ease;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
+  transform: scale(1.05);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -34,9 +38,62 @@
 }
 
 .card {
-  padding: 2em;
+  padding: clamp(1em, 3vw, 2em);
+  margin: clamp(0.5em, 2vw, 1em);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 .read-the-docs {
   color: #888;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+}
+
+/* Container responsivo */
+.container {
+  width: 100%;
+  padding-right: clamp(1rem, 3vw, 2rem);
+  padding-left: clamp(1rem, 3vw, 2rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Grid responsivo */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+  width: 100%;
+}
+
+/* Flexbox responsivo */
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .container {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
 }

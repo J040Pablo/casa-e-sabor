@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Cardapio from "./pages/Cardapio";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./styles/App.css";
 
 export default function App() {
   return (
