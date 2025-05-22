@@ -1,7 +1,7 @@
 // components/Navbar.jsx
 
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PedidosModal from "./PedidosModal";
@@ -10,6 +10,7 @@ import defaultAvatar from "../assets/default-avatar.svg";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -100,6 +101,39 @@ export default function Navbar() {
     toast.info("Você saiu da conta.");
   };
 
+  // Navegação dinâmica baseada na página atual
+  const renderNavLinks = () => {
+    if (location.pathname === "/cardapio") {
+      return (
+        <>
+          <a className="nav-item" href="#comidas">
+            Comidas
+          </a>
+          <a className="nav-item" href="#bebidas">
+            Bebidas
+          </a>
+          <a className="nav-item" href="#sobremesas">
+            Sobremesas
+          </a>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <a className="nav-item" href="#about">
+          Sobre Nós
+        </a>
+        <a className="nav-item" href="#favorite-dishes">
+          Cardápio
+        </a>
+        <a className="nav-item" href="#reviews">
+          Avaliações
+        </a>
+      </>
+    );
+  };
+
   return (
     <>
       <ToastContainer position="top-right" autoClose={3000} />
@@ -118,15 +152,7 @@ export default function Navbar() {
           </div>
 
           <div className="nav-links">
-            <a className="nav-item" href="#about">
-              Sobre Nós
-            </a>
-            <a className="nav-item" href="#favorite-dishes">
-              Cardápio
-            </a>
-            <a className="nav-item" href="#reviews">
-              Avaliações
-            </a>
+            {renderNavLinks()}
           </div>
 
           <div className="user-info" ref={profileRef}>
