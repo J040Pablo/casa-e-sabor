@@ -6,7 +6,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 // Rota para criar um pedido (requer autenticação)
 router.post("/", authenticateToken, pedidosController.criarPedido);
 
-// Rota para listar os pedidos (pode ser pública ou protegida, como preferir)
-router.get("/", pedidosController.listarPedidos);
+// Rota para listar os pedidos (agora protegida)
+router.get("/", authenticateToken, pedidosController.listarPedidos);
 
 module.exports = router;

@@ -27,18 +27,30 @@ export default function PedidosModal({ show, onClose }) {
       setError(null);
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`${API_URL}/api/pedidos`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) throw new Error(`Erro ${res.status}`);
-        const data = await res.json();
+        if (!token) {
+          throw new Error("Token não encontrado");
+        }
 
-        // Filtra pedidos pelo e‑mail do cliente
-        const meusPedidos = data.filter(
-          (p) => p.cliente?.email === usuario.email
-        );
-        setPedidos(meusPedidos);
+        console.log(">> [PedidosModal] Usuário atual:", usuario);
+        console.log(">> [PedidosModal] Token:", token);
+
+        const res = await fetch(`${API_URL}/api/pedidos`, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || `Erro ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log(">> [PedidosModal] Pedidos recebidos:", data);
+        setPedidos(data);
       } catch (err) {
+        console.error(">> [PedidosModal] Erro:", err);
         setError(err.message || "Erro ao carregar pedidos");
       } finally {
         setLoading(false);

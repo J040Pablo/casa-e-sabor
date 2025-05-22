@@ -75,9 +75,22 @@ exports.criarPedido = async (req, res) => {
 
 exports.listarPedidos = async (req, res) => {
   try {
-    // Buscar todos os pedidos no banco de dados
-    // Ordenados do mais recente para o mais antigo
-    const pedidos = await Pedido.find().sort({ dataCriacao: -1 });
+    const user = req.user;
+    console.log(">> [listarPedidos] Usuário autenticado:", user);
+
+    if (!user || !user.email) {
+      console.log(">> [listarPedidos] Usuário não autenticado ou sem email");
+      return res.status(401).json({
+        message: "Usuário não autenticado.",
+      });
+    }
+
+    // Buscar apenas os pedidos do usuário logado
+    const pedidos = await Pedido.find({
+      "cliente.email": user.email.toLowerCase()
+    }).sort({ dataCriacao: -1 });
+
+    console.log(">> [listarPedidos] Pedidos encontrados:", pedidos.length);
 
     // Retornar os pedidos encontrados
     return res.status(200).json(pedidos);
