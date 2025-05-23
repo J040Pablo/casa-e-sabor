@@ -2,7 +2,7 @@
 .cardapio {
   font-family: Arial, sans-serif;
   color: #333;
-  padding-top: 0;
+  padding-top: 80px;
   min-height: 100vh;
   background-color: #f9f9f9;
 }
@@ -74,6 +74,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .cardapio-item:hover {
@@ -88,17 +89,24 @@
   border-bottom: 2px solid #f8b400;
 }
 
+.cardapio-item-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(0.8rem, 2vw, 1rem);
+}
+
 .cardapio-item h3 {
   font-size: clamp(1.1rem, 2vw, 1.3rem);
   color: #333;
-  margin: clamp(0.8rem, 2vw, 1rem);
+  margin-bottom: clamp(0.5rem, 1.5vw, 0.8rem);
   text-align: center;
 }
 
 .cardapio-item p {
   font-size: clamp(0.9rem, 1.5vw, 1rem);
   color: #666;
-  margin: 0 clamp(0.8rem, 2vw, 1rem) clamp(0.8rem, 2vw, 1rem);
+  margin-bottom: clamp(0.5rem, 1.5vw, 0.8rem);
   text-align: center;
   flex-grow: 1;
 }
@@ -108,7 +116,7 @@
   color: #f8b400;
   font-weight: bold;
   text-align: center;
-  margin: clamp(0.5rem, 1.5vw, 1rem);
+  margin-bottom: clamp(0.8rem, 2vw, 1rem);
 }
 
 /* Botão de adicionar ao carrinho */
@@ -121,7 +129,8 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 0 clamp(0.8rem, 2vw, 1rem) clamp(0.8rem, 2vw, 1rem);
+  width: 100%;
+  margin-top: auto;
 }
 
 .adicionar-carrinho-button:hover {
@@ -228,6 +237,10 @@
 
   .cardapio-item img {
     height: 180px;
+  }
+
+  .cardapio {
+    padding-top: 100px;
   }
 }
 

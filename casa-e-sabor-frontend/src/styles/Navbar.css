@@ -22,6 +22,7 @@ body {
   z-index: 1000;
   transition: all 0.3s ease;
   height: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navbar.scrolled {
@@ -247,6 +248,12 @@ body {
   box-shadow: 0 0 0 2px rgba(248, 180, 0, 0.2);
 }
 
+.auth-box input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .auth-box button {
   width: 100%;
   padding: clamp(8px, 1.5vw, 10px);
@@ -263,6 +270,37 @@ body {
 .auth-box button:hover {
   background-color: #f8b400;
   transform: translateY(-2px);
+}
+
+.auth-box button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auth-box button.loading {
+  position: relative;
+  color: transparent;
+}
+
+.auth-box button.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin: -10px 0 0 -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .switch-mode {
@@ -329,6 +367,10 @@ html {
   .user-info {
     margin-left: auto;
   }
+
+  .home, .cardapio {
+    padding-top: 100px; /* Altura maior para telas menores devido ao menu empilhado */
+  }
 }
 
 @media (max-width: 480px) {
@@ -357,4 +399,9 @@ html {
     width: clamp(28px, 4vw, 32px);
     height: clamp(28px, 4vw, 32px);
   }
+}
+
+/* Ajuste para o conteúdo principal */
+.home, .cardapio {
+  padding-top: 80px; /* Altura aproximada da navbar */
 }

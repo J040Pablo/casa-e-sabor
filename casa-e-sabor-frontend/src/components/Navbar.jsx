@@ -17,6 +17,7 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showPedidosModal, setShowPedidosModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const profileRef = useRef();
 
   const API_URL =
@@ -51,6 +52,7 @@ export default function Navbar() {
   // Login / Cadastro
   const handleAuth = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const form = e.target;
     const nome = form.nome?.value;
     const email = form.email.value;
@@ -58,6 +60,7 @@ export default function Navbar() {
 
     if (!isLogin && nome.trim().length < 2) {
       toast.warning("O nome deve conter no mínimo 2 caracteres.");
+      setIsLoading(false);
       return;
     }
 
@@ -72,6 +75,7 @@ export default function Navbar() {
 
       if (!res.ok) {
         toast.error(data.mensagem || data.erro || "Erro na autenticação");
+        setIsLoading(false);
         return;
       }
 
@@ -88,6 +92,8 @@ export default function Navbar() {
       }
     } catch {
       toast.error("Erro ao comunicar com o servidor.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -206,20 +212,37 @@ export default function Navbar() {
                   placeholder="Seu nome"
                   minLength={2}
                   required
+                  disabled={isLoading}
                 />
               )}
-              <input type="email" name="email" placeholder="Email" required />
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="Email" 
+                required 
+                disabled={isLoading}
+              />
               <input
                 type="password"
                 name="senha"
                 placeholder="Senha"
                 required
+                disabled={isLoading}
               />
-              <button type="submit">{isLogin ? "Entrar" : "Cadastrar"}</button>
+              <button 
+                type="submit" 
+                className={isLoading ? "loading" : ""}
+                disabled={isLoading}
+              >
+                {isLoading 
+                  ? (isLogin ? "Realizando login..." : "Cadastrando sua conta...") 
+                  : (isLogin ? "Entrar" : "Cadastrar")}
+              </button>
             </form>
             <p
               className="switch-mode"
-              onClick={() => setIsLogin((prev) => !prev)}
+              onClick={() => !isLoading && setIsLogin((prev) => !prev)}
+              style={{ opacity: isLoading ? 0.5 : 1, cursor: isLoading ? "not-allowed" : "pointer" }}
             >
               {isLogin
                 ? "Não tem conta? Cadastre-se"
@@ -227,7 +250,8 @@ export default function Navbar() {
             </p>
             <button
               className="close-btn"
-              onClick={() => setShowAuthModal(false)}
+              onClick={() => !isLoading && setShowAuthModal(false)}
+              disabled={isLoading}
             >
               Fechar
             </button>

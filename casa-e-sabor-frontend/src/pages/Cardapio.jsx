@@ -10,21 +10,18 @@ import { useAuth } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
 
 // Importação das imagens
-import prato1 from "../assets/prato1.webp";
-import prato2 from "../assets/prato2.webp";
-import prato3 from "../assets/prato3.webp";
-import prato4 from "../assets/prato4.webp";
-import prato5 from "../assets/prato5.webp";
-import prato6 from "../assets/prato6.webp";
-import sucoNatural from "../assets/Suco-Natural.png";
-import refrigerante from "../assets/Refrigerante.png";
-import agua from "../assets/agua.png";
-import sobremesa1 from "../assets/sobremesa1.png";
-import sobremesa2 from "../assets/sobremesa2.png";
-import sobremesa3 from "../assets/sobremesa3.png";
 import croissant from "../assets/croissant-de-chocolate.jpg";
 import macarrao from "../assets/Macarrao-Alfredo.webp";
 import frango from "../assets/batatas-rusticas-com-frango-e-bacon.jpg";
+import Feijoada from "../assets/Feijoada.jpeg";
+import Picanha from "../assets/Picanha.jpeg";
+import RisotoDeCogumelos from "../assets/RisotoDeCogumelos.jpeg";
+import sucoNatural from "../assets/Suco-Natural.png";
+import refrigerante from "../assets/Refrigerante.png";
+import agua from "../assets/agua.png";
+import PudimDeLeite from "../assets/PudimDeLeite.jpeg";
+import MousseDeChocolate from "../assets/MousseDeChocolate.jpeg";
+import Sorvete from "../assets/Sorvete.jpeg";
 
 export default function Cardapio() {
   const [carrinho, setCarrinho] = useState([]);
@@ -68,21 +65,21 @@ export default function Cardapio() {
       nome: "Feijoada Completa",
       descricao: "Feijoada tradicional com todos os acompanhamentos.",
       preco: 45.90,
-      imagem: prato1,
+      imagem: Feijoada,
     },
     {
       id: 5,
       nome: "Picanha Grelhada",
       descricao: "Picanha grelhada com arroz, feijão e farofa.",
       preco: 55.90,
-      imagem: prato2,
+      imagem: Picanha,
     },
     {
       id: 6,
       nome: "Risoto de Cogumelos",
       descricao: "Risoto cremoso com cogumelos frescos.",
       preco: 42.90,
-      imagem: prato6,
+      imagem: RisotoDeCogumelos,
     },
   ];
 
@@ -116,21 +113,21 @@ export default function Cardapio() {
       nome: "Pudim de Leite",
       descricao: "Pudim de leite condensado com calda de caramelo",
       preco: 12.90,
-      imagem: sobremesa1,
+      imagem: PudimDeLeite,
     },
     {
       id: 11,
       nome: "Mousse de Chocolate",
       descricao: "Mousse de chocolate com raspas de chocolate",
       preco: 14.90,
-      imagem: sobremesa2,
+      imagem: MousseDeChocolate,
     },
     {
       id: 12,
       nome: "Sorvete",
       descricao: "Sorvete de creme com calda de chocolate",
       preco: 10.90,
-      imagem: sobremesa3,
+      imagem: Sorvete,
     },
   ];
 
@@ -145,7 +142,7 @@ export default function Cardapio() {
         </p>
       </header>
 
-      <section className="cardapio-section">
+      <section id="comidas" className="cardapio-section">
         <h2 className="section-title">Comidas</h2>
         <div className="cardapio-items">
           {comidas.map((item) => (
@@ -171,7 +168,7 @@ export default function Cardapio() {
         </div>
       </section>
 
-      <section className="cardapio-section">
+      <section id="bebidas" className="cardapio-section">
         <h2 className="section-title">Bebidas</h2>
         <div className="cardapio-items">
           {bebidas.map((item) => (
@@ -197,7 +194,7 @@ export default function Cardapio() {
         </div>
       </section>
 
-      <section className="cardapio-section">
+      <section id="sobremesas" className="cardapio-section">
         <h2 className="section-title">Sobremesas</h2>
         <div className="cardapio-items">
           {sobremesas.map((item) => (
