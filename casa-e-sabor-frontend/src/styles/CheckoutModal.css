@@ -1,0 +1,111 @@
+.checkout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.checkout-modal {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.checkout-modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.checkout-modal header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.checkout-modal .close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.checkout-modal .close:hover {
+  color: #333;
+}
+
+.checkout-content {
+  padding: 1rem;
+}
+
+.resumo-pedido {
+  margin-bottom: 2rem;
+}
+
+.resumo-pedido h4 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.resumo-pedido ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resumo-pedido li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  color: #666;
+}
+
+.total {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.checkout-button {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #666;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .checkout-modal {
+    width: 95%;
+    margin: 1rem;
+  }
+} 

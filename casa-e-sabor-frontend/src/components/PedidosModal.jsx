@@ -3,17 +3,55 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/PedidosModal.css";
+import PagamentoModal from "./PagamentoModal";
 
 export default function PedidosModal({ show, onClose }) {
   const { usuario } = useAuth();
   const [pedidos, setPedidos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [pedidoSelecionado, setPedidoSelecionado] = useState(null);
+  const [pagamentoModalVisible, setPagamentoModalVisible] = useState(false);
 
   const API_URL =
     window.location.hostname === "localhost"
       ? "http://localhost:5000"
       : "https://casa-e-sabor.onrender.com";
+
+  const fetchPedidos = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Token não encontrado");
+      }
+
+      console.log(">> [PedidosModal] Usuário atual:", usuario);
+      console.log(">> [PedidosModal] Token:", token);
+
+      const res = await fetch(`${API_URL}/api/pedidos`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || `Erro ${res.status}`);
+      }
+
+      const data = await res.json();
+      console.log(">> [PedidosModal] Pedidos recebidos:", data);
+      setPedidos(data);
+    } catch (err) {
+      console.error(">> [PedidosModal] Erro:", err);
+      setError(err.message || "Erro ao carregar pedidos");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!show) return;
@@ -22,43 +60,23 @@ export default function PedidosModal({ show, onClose }) {
       return;
     }
 
-    const fetchPedidos = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("Token não encontrado");
-        }
-
-        console.log(">> [PedidosModal] Usuário atual:", usuario);
-        console.log(">> [PedidosModal] Token:", token);
-
-        const res = await fetch(`${API_URL}/api/pedidos`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message || `Erro ${res.status}`);
-        }
-
-        const data = await res.json();
-        console.log(">> [PedidosModal] Pedidos recebidos:", data);
-        setPedidos(data);
-      } catch (err) {
-        console.error(">> [PedidosModal] Erro:", err);
-        setError(err.message || "Erro ao carregar pedidos");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchPedidos();
   }, [show, usuario]);
+
+  const handlePagamento = (pedido) => {
+    setPedidoSelecionado(pedido);
+    setPagamentoModalVisible(true);
+  };
+
+  const handleFecharPagamento = () => {
+    setPagamentoModalVisible(false);
+    setPedidoSelecionado(null);
+  };
+
+  const handlePedidoAtualizado = () => {
+    // Recarrega os pedidos após o pagamento
+    fetchPedidos();
+  };
 
   if (!show) return null;
 
@@ -96,11 +114,29 @@ export default function PedidosModal({ show, onClose }) {
                   ))}
                 </ul>
                 <div className="total">Total: R$ {pedido.total.toFixed(2)}</div>
+                {pedido.status === "aguardando pagamento" && (
+                  <button
+                    className="pagar-button"
+                    onClick={() => handlePagamento(pedido)}
+                  >
+                    Realizar Pagamento
+                  </button>
+                )}
               </li>
             ))}
           </ul>
         </div>
       </div>
+
+      {pedidoSelecionado && (
+        <PagamentoModal
+          visible={pagamentoModalVisible}
+          pedido={pedidoSelecionado}
+          onClose={handleFecharPagamento}
+          onPedidoAtualizado={handlePedidoAtualizado}
+          backendURL={API_URL}
+        />
+      )}
     </div>
   );
 }

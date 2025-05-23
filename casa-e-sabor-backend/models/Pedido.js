@@ -35,8 +35,22 @@ const PedidoSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["em andamento", "finalizado", "cancelado"],
+    enum: ["em andamento", "aguardando pagamento", "finalizado", "cancelado"],
     default: "em andamento",
+  },
+  statusPagamento: {
+    type: String,
+    enum: ["pendente", "pago", "falhou"],
+    default: "pendente",
+  },
+  metodoPagamento: {
+    type: String,
+    enum: ["mercado_pago", "dinheiro", null],
+    default: null,
+  },
+  preferenceId: {
+    type: String,
+    default: null,
   },
   itens: {
     type: [ItemPedidoSchema],
@@ -54,6 +68,10 @@ const PedidoSchema = new mongoose.Schema({
   dataCriacao: {
     type: Date,
     default: Date.now,
+  },
+  dataPagamento: {
+    type: Date,
+    default: null,
   },
 });
 
