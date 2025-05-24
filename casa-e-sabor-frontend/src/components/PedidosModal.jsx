@@ -1,9 +1,12 @@
 // components/PedidosModal.jsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/PedidosModal.css";
 import PagamentoModal from "./PagamentoModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 export default function PedidosModal({ show, onClose }) {
   const { usuario } = useAuth();
@@ -18,7 +21,7 @@ export default function PedidosModal({ show, onClose }) {
       ? "http://localhost:5000"
       : "https://casa-e-sabor.onrender.com";
 
-  const fetchPedidos = async () => {
+  const fetchPedidos = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -51,7 +54,7 @@ export default function PedidosModal({ show, onClose }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_URL, usuario]);
 
   useEffect(() => {
     if (!show) return;
@@ -61,7 +64,7 @@ export default function PedidosModal({ show, onClose }) {
     }
 
     fetchPedidos();
-  }, [show, usuario]);
+  }, [show, usuario, fetchPedidos]);
 
   const handlePagamento = (pedido) => {
     setPedidoSelecionado(pedido);
@@ -76,6 +79,41 @@ export default function PedidosModal({ show, onClose }) {
   const handlePedidoAtualizado = () => {
     // Recarrega os pedidos após o pagamento
     fetchPedidos();
+  };
+
+  const handleExcluirPedido = async (pedidoId) => {
+    if (!window.confirm("Tem certeza que deseja excluir este pedido?")) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Token não encontrado");
+      }
+
+      const res = await fetch(`${API_URL}/api/pedidos/${pedidoId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || `Erro ${res.status}`);
+      }
+
+      toast.success("Pedido excluído com sucesso!");
+      fetchPedidos(); // Recarrega a lista de pedidos
+    } catch (err) {
+      console.error("Erro ao excluir pedido:", err);
+      toast.error(err.message || "Erro ao excluir pedido");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!show) return null;
@@ -114,14 +152,26 @@ export default function PedidosModal({ show, onClose }) {
                   ))}
                 </ul>
                 <div className="total">Total: R$ {pedido.total.toFixed(2)}</div>
-                {pedido.status === "aguardando pagamento" && (
-                  <button
-                    className="pagar-button"
-                    onClick={() => handlePagamento(pedido)}
-                  >
-                    Realizar Pagamento
-                  </button>
-                )}
+                <div className="pedido-actions">
+                  {pedido.status === "aguardando pagamento" && (
+                    <button
+                      className="pagar-button"
+                      onClick={() => handlePagamento(pedido)}
+                    >
+                      Realizar Pagamento
+                    </button>
+                  )}
+                  {pedido.status === "aguardando pagamento" && (
+                    <button
+                      className="excluir-button"
+                      onClick={() => handleExcluirPedido(pedido._id)}
+                      disabled={loading}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                      Excluir
+                    </button>
+                  )}
+                </div>
               </li>
             ))}
           </ul>

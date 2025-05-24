@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PedidosModal from "./PedidosModal";
 import "../styles/Navbar.css";
 import defaultAvatar from "../assets/default-avatar.svg";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -14,22 +15,17 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [user, setUser] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showPedidosModal, setShowPedidosModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const profileRef = useRef();
 
+  const { usuario, login, logout } = useAuth();
+
   const API_URL =
     window.location.hostname === "localhost"
       ? "http://localhost:5000"
       : "https://casa-e-sabor.onrender.com";
-
-  // Checa usuário no localStorage
-  useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) setUser(JSON.parse(savedUser));
-  }, []);
 
   // Fecha menu de perfil ao clicar fora
   useEffect(() => {
@@ -80,11 +76,8 @@ export default function Navbar() {
       }
 
       if (isLogin) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.usuario));
-        setUser(data.usuario);
+        login(data.token);
         setShowAuthModal(false);
-        toast.success(`Bem-vindo(a), ${data.usuario.nome}!`);
       } else {
         toast.success("Cadastro realizado com sucesso! Faça login.");
         setIsLogin(true);
@@ -99,9 +92,7 @@ export default function Navbar() {
 
   // Logout
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
+    logout();
     setShowProfileMenu(false);
     navigate("/");
     toast.info("Você saiu da conta.");
@@ -142,7 +133,7 @@ export default function Navbar() {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" />
       <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <div className="container">
           <div className="logo" onClick={() => navigate("/")}>
@@ -162,22 +153,21 @@ export default function Navbar() {
           </div>
 
           <div className="user-info" ref={profileRef}>
-            {user ? (
-              <>
+            {usuario ? (
+              <button className="logged-in-payment-button" onClick={() => setShowProfileMenu((prev) => !prev)}>
                 <img
-                  src={user.profileImage || defaultAvatar}
+                  src={usuario.profileImage || defaultAvatar}
                   alt="Avatar"
                   className="profile-avatar"
-                  onClick={() => setShowProfileMenu((prev) => !prev)}
                 />
-
+                <span className="payment-text">Realizar Pagamento</span>
                 {showProfileMenu && (
-                  <ul className="profile-menu-dropdown">
+                  <ul className="profile-menu-dropdown" onClick={(e) => e.stopPropagation()}>
                     <li onClick={() => setShowPedidosModal(true)}>Pedidos</li>
                     <li onClick={handleLogout}>Sair da conta</li>
                   </ul>
                 )}
-              </>
+              </button>
             ) : (
               <button
                 className="order-button"

@@ -446,3 +446,50 @@ exports.criarPagamentoPix = async (req, res) => {
     });
   }
 };
+
+exports.excluirPedido = async (req, res) => {
+  try {
+    const { pedidoId } = req.params;
+    const user = req.user;
+
+    if (!pedidoId) {
+      return res.status(400).json({ 
+        message: "ID do pedido é obrigatório" 
+      });
+    }
+
+    const pedido = await Pedido.findById(pedidoId);
+    
+    if (!pedido) {
+      return res.status(404).json({ 
+        message: "Pedido não encontrado" 
+      });
+    }
+
+    // Verifica se o pedido pertence ao usuário
+    if (pedido.cliente.email.toLowerCase() !== user.email.toLowerCase()) {
+      return res.status(403).json({ 
+        message: "Você não tem permissão para excluir este pedido" 
+      });
+    }
+
+    // Verifica se o pedido já foi pago ou finalizado
+    if (pedido.statusPagamento === "pago" || pedido.status === "finalizado") {
+      return res.status(400).json({ 
+        message: "Não é possível excluir um pedido que já foi pago ou finalizado" 
+      });
+    }
+
+    await Pedido.findByIdAndDelete(pedidoId);
+
+    return res.status(200).json({ 
+      message: "Pedido excluído com sucesso" 
+    });
+  } catch (error) {
+    console.error('Erro ao excluir pedido:', error);
+    return res.status(500).json({
+      message: "Erro ao excluir pedido",
+      error: error.message
+    });
+  }
+};

@@ -16,12 +16,18 @@ import frango from "../assets/batatas-rusticas-com-frango-e-bacon.jpg";
 import Feijoada from "../assets/Feijoada.jpeg";
 import Picanha from "../assets/Picanha.jpeg";
 import RisotoDeCogumelos from "../assets/RisotoDeCogumelos.jpeg";
-import sucoNatural from "../assets/Suco-Natural.png";
-import refrigerante from "../assets/Refrigerante.png";
 import agua from "../assets/agua.png";
 import PudimDeLeite from "../assets/PudimDeLeite.jpeg";
 import MousseDeChocolate from "../assets/MousseDeChocolate.jpeg";
 import Sorvete from "../assets/Sorvete.jpeg";
+
+// Importação das novas imagens de bebidas
+import SucoDeLaranja from "../assets/SucoDeLaranja.png";
+import SucoDeLimao from "../assets/SucoDeLimao.png";
+import SucoDeMaracuja from "../assets/SucoDeMaracuja.webp";
+import CocaCola from "../assets/CocaCola.png";
+import Guarana from "../assets/Guarana.png";
+import Fanta from "../assets/Fanta.png";
 
 export default function Cardapio() {
   const [carrinho, setCarrinho] = useState([]);
@@ -86,20 +92,48 @@ export default function Cardapio() {
   const bebidas = [
     {
       id: 7,
-      nome: "Suco Natural",
-      descricao: "Suco de laranja, limão ou maracujá",
+      nome: "Suco de Laranja",
+      descricao: "Suco natural e refrescante de laranja.",
       preco: 8.90,
-      imagem: sucoNatural,
+      imagem: SucoDeLaranja,
     },
     {
       id: 8,
-      nome: "Refrigerante",
-      descricao: "Coca-Cola, Guaraná, Sprite ou Fanta",
-      preco: 6.90,
-      imagem: refrigerante,
+      nome: "Suco de Limão",
+      descricao: "Suco natural e refrescante de limão.",
+      preco: 8.90,
+      imagem: SucoDeLimao,
     },
     {
       id: 9,
+      nome: "Suco de Maracujá",
+      descricao: "Suco natural e calmante de maracujá.",
+      preco: 8.90,
+      imagem: SucoDeMaracuja,
+    },
+    {
+      id: 10,
+      nome: "Coca-Cola",
+      descricao: "Refrigerante sabor cola.",
+      preco: 6.90,
+      imagem: CocaCola,
+    },
+    {
+      id: 11,
+      nome: "Guaraná",
+      descricao: "Refrigerante sabor guaraná.",
+      preco: 6.90,
+      imagem: Guarana,
+    },
+    {
+      id: 12,
+      nome: "Fanta",
+      descricao: "Refrigerante sabor laranja.",
+      preco: 6.90,
+      imagem: Fanta,
+    },
+    {
+      id: 13,
       nome: "Água Mineral",
       descricao: "Água mineral com ou sem gás",
       preco: 4.90,

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import '../styles/PagamentoModal.css';
 import { toast } from 'react-toastify';
 import api from '../services/api';
@@ -6,8 +6,6 @@ import MercadoPagoLogo from '../assets/mercado-pago-logo.png';
 
 export default function PagamentoModal({ visible, pedido, onClose, onPedidoAtualizado }) {
   const [loading, setLoading] = useState(false);
-
-  if (!visible) return null;
 
   const handlePagamentoDinheiro = useCallback(async () => {
     if (loading) return;
@@ -39,7 +37,7 @@ export default function PagamentoModal({ visible, pedido, onClose, onPedidoAtual
     } finally {
       setLoading(false);
     }
-  }, [pedido._id, loading, onClose, onPedidoAtualizado]);
+  }, [pedido?._id, loading, onClose, onPedidoAtualizado]);
 
   const handlePagamentoMercadoPago = useCallback(async () => {
     if (loading) return;
@@ -60,7 +58,7 @@ export default function PagamentoModal({ visible, pedido, onClose, onPedidoAtual
     } finally {
       setLoading(false);
     }
-  }, [pedido._id, loading, onClose]);
+  }, [pedido?._id, loading, onClose]);
 
   const handleClose = useCallback((e) => {
     if (e) {
@@ -68,6 +66,8 @@ export default function PagamentoModal({ visible, pedido, onClose, onPedidoAtual
     }
     onClose();
   }, [onClose]);
+
+  if (!visible) return null;
 
   return (
     <div className="pagamento-overlay" onClick={handleClose}>
@@ -79,7 +79,7 @@ export default function PagamentoModal({ visible, pedido, onClose, onPedidoAtual
         <div className="content">
           <div className="total-info">
             <p>Total a pagar:</p>
-            <strong>R$ {pedido.total.toFixed(2)}</strong>
+            <strong>R$ {pedido?.total.toFixed(2)}</strong>
           </div>
           <div className="opcoes-pagamento">
             <button 

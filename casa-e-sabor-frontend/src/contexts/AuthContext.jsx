@@ -23,6 +23,7 @@ export function AuthProvider({ children }) {
     if (dados) {
       setUsuario(dados);
       localStorage.setItem("token", token);
+      window.location.reload();
     }
   };
 

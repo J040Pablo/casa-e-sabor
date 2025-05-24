@@ -21,4 +21,7 @@ router.post("/:pedidoId/pagamento/pix", authenticateToken, pedidosController.cri
 // Webhook do Mercado Pago (não requer autenticação)
 router.post("/webhook/mercado-pago", pedidosController.webhookMercadoPago);
 
+// Rota para excluir pedido
+router.delete("/:pedidoId", authenticateToken, pedidosController.excluirPedido);
+
 module.exports = router;

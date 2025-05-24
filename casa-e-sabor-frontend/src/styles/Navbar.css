@@ -405,3 +405,66 @@ html {
 .home, .cardapio {
   padding-top: 80px; /* Altura aproximada da navbar */
 }
+
+/* Estilos para a área de usuário logado (botão Realizar Pagamento) */
+.user-info .logged-in-payment-button {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre a imagem e o texto */
+  padding: 4px 12px; /* Padding ao redor do conteúdo */
+  background-color: #f8b400; /* Fundo amarelo */
+  color: #282828; /* Cor do texto */
+  border: none;
+  border-radius: 25px; /* Cantos arredondados (pill shape) */
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative; /* Para posicionar o dropdown */
+  z-index: 1; /* Garante que está acima de outros elementos */
+  height: 40px; /* Altura fixa */
+}
+
+.user-info .logged-in-payment-button:hover {
+  background-color: #e5a200; /* Amarelo um pouco mais escuro no hover */
+  transform: translateY(-2px); /* Leve movimento para cima */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+.user-info .logged-in-payment-button .profile-avatar {
+  width: 32px; /* Tamanho do avatar */
+  height: 32px;
+  border-radius: 50%; /* Avatar redondo */
+  object-fit: cover; /* Garante que a imagem cubra a área */
+  border: 2px solid #282828; /* Borda ao redor do avatar */
+}
+
+.user-info .logged-in-payment-button .payment-text {
+  white-space: nowrap; /* Evita quebra de linha no texto */
+}
+
+/* Ajustes para o dropdown */
+.user-info .profile-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 10px); /* Posição abaixo do botão */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  min-width: 150px;
+  z-index: 10; /* Acima de outros elementos */
+}
+
+.user-info .profile-menu-dropdown li {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.user-info .profile-menu-dropdown li:hover {
+  background-color: #f0f0f0;
+}
