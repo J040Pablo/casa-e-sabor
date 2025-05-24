@@ -24,6 +24,7 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
   const [error, setError] = useState(null);
   const [preferenceId, setPreferenceId] = useState(null);
   const [adBlockerDetected, setAdBlockerDetected] = useState(false);
+  const [pixData, setPixData] = useState(null);
 
   useEffect(() => {
     if (show && pedidoId) {
@@ -56,6 +57,14 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
       }
 
       setPreferenceId(response.data.preferenceId);
+      
+      // Se houver dados do PIX, salva
+      if (response.data.pix_qr_code) {
+        setPixData({
+          qrCode: response.data.pix_qr_code,
+          qrCodeBase64: response.data.pix_qr_code_base64
+        });
+      }
     } catch (err) {
       console.error("Erro ao inicializar pagamento:", err);
       setError(err.message);
@@ -83,6 +92,40 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
         Se o problema persistir, você pode tentar usar outro navegador ou o aplicativo do Mercado Pago.
       </p>
     </Alert>
+  );
+
+  const renderPixPayment = () => (
+    <div className="pix-payment">
+      <h4>Pagamento via PIX</h4>
+      <p>Escaneie o QR Code abaixo ou copie o código PIX:</p>
+      {pixData?.qrCodeBase64 && (
+        <div className="qr-code-container">
+          <img 
+            src={`data:image/png;base64,${pixData.qrCodeBase64}`} 
+            alt="QR Code PIX" 
+            className="qr-code"
+          />
+        </div>
+      )}
+      {pixData?.qrCode && (
+        <div className="pix-code">
+          <p>Código PIX:</p>
+          <div className="copy-container">
+            <code>{pixData.qrCode}</code>
+            <Button 
+              variant="outline-primary" 
+              size="sm"
+              onClick={() => {
+                navigator.clipboard.writeText(pixData.qrCode);
+                toast.success("Código PIX copiado!");
+              }}
+            >
+              Copiar
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 
   return (
@@ -113,18 +156,24 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
           </Alert>
         )}
 
-        {!loading && !error && preferenceId && (
+        {!loading && !error && (
           <div>
-            <p>Clique no botão abaixo para prosseguir com o pagamento:</p>
-            <Wallet
-              initialization={{ preferenceId }}
-              customization={{ 
-                theme: {
-                  elementsColor: "#4CAF50",
-                  headerColor: "#4CAF50"
-                }
-              }}
-            />
+            {pixData ? (
+              renderPixPayment()
+            ) : (
+              <>
+                <p>Clique no botão abaixo para prosseguir com o pagamento:</p>
+                <Wallet
+                  initialization={{ preferenceId }}
+                  customization={{ 
+                    theme: {
+                      elementsColor: "#4CAF50",
+                      headerColor: "#4CAF50"
+                    }
+                  }}
+                />
+              </>
+            )}
           </div>
         )}
       </Modal.Body>

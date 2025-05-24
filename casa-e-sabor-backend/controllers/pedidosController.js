@@ -185,13 +185,25 @@ exports.criarPagamentoMercadoPago = async (req, res) => {
         name: pedido.cliente.nome,
         email: pedido.cliente.email
       },
+      payment_methods: {
+        installments: 1,
+        default_installments: 1,
+        excluded_payment_methods: [],
+        excluded_payment_types: [],
+        default_payment_method_id: null,
+        default_payment_type_id: null
+      },
       back_urls: {
         success: `${frontendUrl}/pedidos/success`,
         failure: `${frontendUrl}/pedidos/failure`,
         pending: `${frontendUrl}/pedidos/pending`
       },
       external_reference: pedidoId.toString(),
-      notification_url: `${backendUrl}/api/pedidos/webhook/mercado-pago`
+      notification_url: `${backendUrl}/api/pedidos/webhook/mercado-pago`,
+      statement_descriptor: "CASA E SABOR",
+      expires: true,
+      expiration_date_from: new Date().toISOString(),
+      expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 horas
     };
 
     try {
