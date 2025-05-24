@@ -169,4 +169,85 @@
 
 .copy-container button {
   white-space: nowrap;
+}
+
+.payment-options {
+  padding: 1rem;
+}
+
+.payment-button {
+  min-width: 150px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.pix-form {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.pix-form h5 {
+  margin-bottom: 1.5rem;
+  color: #198754;
+}
+
+.qr-code-container {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.qr-code-container img {
+  max-width: 200px;
+  height: auto;
+}
+
+.pix-code {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.copy-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.copy-container code {
+  flex: 1;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+/* Animações */
+.payment-button:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.qr-code-container img {
+  transition: transform 0.3s ease;
+}
+
+.qr-code-container img:hover {
+  transform: scale(1.05);
 } 

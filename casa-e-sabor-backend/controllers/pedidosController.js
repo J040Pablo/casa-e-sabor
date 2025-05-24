@@ -301,6 +301,8 @@ exports.webhookMercadoPago = async (req, res) => {
 exports.criarPagamentoPix = async (req, res) => {
   try {
     const { pedidoId } = req.params;
+    const { cpf, cnpj } = req.body; // Recebe CPF ou CNPJ do frontend
+
     const pedido = await Pedido.findById(pedidoId);
 
     if (!pedido) {
@@ -321,11 +323,19 @@ exports.criarPagamentoPix = async (req, res) => {
       return res.status(400).json({ message: "Dados do cliente incompletos" });
     }
 
+    // Validação do CPF/CNPJ
+    if (!cpf && !cnpj) {
+      return res.status(400).json({ 
+        message: "CPF ou CNPJ é obrigatório para pagamento via PIX" 
+      });
+    }
+
     // Log para debug
     console.log('Iniciando pagamento PIX:', {
       pedidoId: pedido._id,
       valor: pedido.total,
-      cliente: pedido.cliente.email
+      cliente: pedido.cliente.email,
+      documento: cpf || cnpj
     });
 
     const payment = new Payment(client);
@@ -344,8 +354,8 @@ exports.criarPagamentoPix = async (req, res) => {
         first_name: primeiroNome,
         last_name: sobrenome,
         identification: {
-          type: "CPF",
-          number: "00000000191"
+          type: cpf ? "CPF" : "CNPJ",
+          number: cpf || cnpj
         }
       },
       metadata: {
@@ -359,7 +369,9 @@ exports.criarPagamentoPix = async (req, res) => {
           quantity: item.quantidade,
           unit_price: item.preco
         }))
-      }
+      },
+      notification_url: `${process.env.BACKEND_URL}/api/pedidos/webhook/mercado-pago`,
+      external_reference: pedido._id.toString()
     };
 
     // Log do payload para debug
@@ -373,6 +385,10 @@ exports.criarPagamentoPix = async (req, res) => {
 
       if (!result || !result.point_of_interaction) {
         throw new Error('Resposta inválida do Mercado Pago');
+      }
+
+      if (result.status !== 'pending') {
+        throw new Error('Não foi possível gerar o QR Code Pix');
       }
 
       // Atualiza o pedido com informações do pagamento
@@ -404,7 +420,8 @@ exports.criarPagamentoPix = async (req, res) => {
           debug_info: {
             token_prefix: accessToken.substring(0, 8),
             valor: paymentData.transaction_amount,
-            email: paymentData.payer.email
+            email: paymentData.payer.email,
+            documento: paymentData.payer.identification.number
           }
         });
       }

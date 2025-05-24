@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Spinner, Alert } from "react-bootstrap";
+import { Modal, Button, Spinner, Alert, Form } from "react-bootstrap";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,6 +25,8 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
   const [preferenceId, setPreferenceId] = useState(null);
   const [adBlockerDetected, setAdBlockerDetected] = useState(false);
   const [pixData, setPixData] = useState(null);
+  const [documento, setDocumento] = useState('');
+  const [tipoDocumento, setTipoDocumento] = useState('CPF');
 
   useEffect(() => {
     if (show && pedidoId) {
@@ -74,16 +76,26 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
   };
 
   const handlePagamentoPix = async () => {
+    if (!documento) {
+      toast.error('Por favor, informe seu CPF ou CNPJ');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
-      const response = await api.post(`/pedidos/${pedidoId}/pagamento/pix`);
+      const payload = tipoDocumento === 'CPF' 
+        ? { cpf: documento }
+        : { cnpj: documento };
+
+      const response = await api.post(`/pedidos/${pedidoId}/pagamento/pix`, payload);
       setPixData({
         qrCode: response.data.qr_code,
         qrCodeBase64: response.data.qr_code_base64
       });
     } catch (err) {
       setError('Erro ao gerar pagamento PIX');
+      toast.error(err.response?.data?.message || 'Erro ao gerar pagamento PIX');
     } finally {
       setLoading(false);
     }
@@ -110,24 +122,6 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
     </Alert>
   );
 
-  const renderPixPayment = () => (
-    <div className="pix-payment">
-      <h4>Pagamento via PIX</h4>
-      <div className="qr-code-container">
-        <img src={`data:image/png;base64,${pixData.qrCodeBase64}`} alt="QR Code PIX" />
-      </div>
-      <div className="pix-code">
-        <p>Código PIX:</p>
-        <div className="copy-container">
-          <code>{pixData.qrCode}</code>
-          <Button onClick={() => navigator.clipboard.writeText(pixData.qrCode)}>
-            Copiar
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <Modal show={show} onHide={onHide} centered size="lg">
       <Modal.Header closeButton>
@@ -136,7 +130,7 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
       <Modal.Body>
         {adBlockerDetected && renderAdBlockerWarning()}
 
-        {loading && (
+        {loading && !pixData && (
           <div className="text-center">
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Carregando...</span>
@@ -157,18 +151,92 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
         )}
 
         {!loading && !error && (
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginBottom: 24 }}>
-            <Button variant="success" onClick={handlePagamentoPix} disabled={loading}>
-              Pagar com PIX
-            </Button>
-            <Button variant="primary" onClick={initializeMercadoPago} disabled={loading}>
-              Pagar com Mercado Pago (Cartão/Boleto)
-            </Button>
-          </div>
-        )}
+          <div className="payment-options">
+            <div className="mb-4">
+              <h5>Escolha a forma de pagamento:</h5>
+              <div className="d-flex gap-3">
+                <Button 
+                  variant="outline-success" 
+                  onClick={() => setPixData({ showForm: true })}
+                  className="payment-button"
+                >
+                  <FontAwesomeIcon icon={faQrcode} className="me-2" />
+                  PIX
+                </Button>
+                <Button 
+                  variant="outline-primary" 
+                  onClick={initializeMercadoPago}
+                  className="payment-button"
+                >
+                  <FontAwesomeIcon icon={faCreditCard} className="me-2" />
+                  Cartão/Boleto
+                </Button>
+              </div>
+            </div>
 
-        {!loading && !error && pixData && (
-          renderPixPayment()
+            {pixData?.showForm && (
+              <div className="pix-form">
+                <h5>Pagamento via PIX</h5>
+                <Form.Group className="mb-3">
+                  <Form.Label>Tipo de Documento</Form.Label>
+                  <Form.Select 
+                    value={tipoDocumento} 
+                    onChange={(e) => setTipoDocumento(e.target.value)}
+                  >
+                    <option value="CPF">CPF</option>
+                    <option value="CNPJ">CNPJ</option>
+                  </Form.Select>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>{tipoDocumento}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder={`Digite seu ${tipoDocumento}`}
+                    value={documento}
+                    onChange={(e) => setDocumento(e.target.value)}
+                    maxLength={tipoDocumento === 'CPF' ? 11 : 14}
+                  />
+                </Form.Group>
+                <Button 
+                  variant="success" 
+                  onClick={handlePagamentoPix} 
+                  disabled={loading || !documento}
+                >
+                  {loading ? (
+                    <>
+                      <Spinner as="span" animation="border" size="sm" /> Gerando PIX...
+                    </>
+                  ) : (
+                    'Gerar PIX'
+                  )}
+                </Button>
+              </div>
+            )}
+
+            {pixData?.qrCode && (
+              <div className="mt-4">
+                <div className="qr-code-container">
+                  <img src={`data:image/png;base64,${pixData.qrCodeBase64}`} alt="QR Code PIX" />
+                </div>
+                <div className="pix-code">
+                  <p>Código PIX:</p>
+                  <div className="copy-container">
+                    <code>{pixData.qrCode}</code>
+                    <Button 
+                      variant="outline-primary" 
+                      size="sm"
+                      onClick={() => {
+                        navigator.clipboard.writeText(pixData.qrCode);
+                        toast.success('Código PIX copiado!');
+                      }}
+                    >
+                      Copiar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </Modal.Body>
       <Modal.Footer>
