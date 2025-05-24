@@ -18,6 +18,8 @@ script.src = "https://sdk.mercadopago.com/js/v2";
 script.async = true;
 document.body.appendChild(script);
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CheckoutModal = ({ show, onHide, pedidoId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -45,7 +47,7 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
       setError(null);
 
       // Inicializa o Mercado Pago
-      await initMercadoPago("APP_USR-8399051268111330-052311-749ff2c1550b296fbb3fe81770f5fc4f-1920674109");
+      await initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY);
 
       // Busca os dados do pagamento do backend
       const token = localStorage.getItem("token");
@@ -53,7 +55,7 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
         throw new Error("Token não encontrado");
       }
 
-      const response = await fetch(`http://localhost:5000/api/pedidos/${pedidoId}/pagar`, {
+      const response = await fetch(`${API_URL}/api/pedidos/${pedidoId}/pagar`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

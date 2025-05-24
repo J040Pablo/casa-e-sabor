@@ -166,8 +166,8 @@ exports.criarPagamentoMercadoPago = async (req, res) => {
       });
     }
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://casa-e-sabor.vercel.app';
+    const backendUrl = process.env.BACKEND_URL || 'https://casa-e-sabor.onrender.com';
 
     const preference = new Preference(client);
     

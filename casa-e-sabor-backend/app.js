@@ -26,7 +26,7 @@ mongoose
 const allowedOrigins = [
   "https://casa-e-sabor.vercel.app",
   "http://localhost:5173",
-  "https://seu-frontend-domain.com",
+  "http://localhost:5000"
 ];
 
 app.use(
@@ -38,6 +38,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true
   })
 );
 
