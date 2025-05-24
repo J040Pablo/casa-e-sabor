@@ -8,8 +8,19 @@ if (!accessToken) {
   throw new Error('Token de acesso do Mercado Pago não configurado');
 }
 
+// Validação do token
+if (!accessToken.startsWith('APP_USR-')) {
+  console.error('ERRO: Token do Mercado Pago inválido. Deve começar com APP_USR-');
+  throw new Error('Token de acesso do Mercado Pago inválido');
+}
+
+// Configuração do cliente Mercado Pago
 const client = new MercadoPagoConfig({ 
-  accessToken
+  accessToken,
+  options: {
+    timeout: 5000, // timeout de 5 segundos
+    idempotencyKey: true // garante que requisições duplicadas não sejam processadas
+  }
 });
 
 exports.criarPedido = async (req, res) => {
@@ -296,8 +307,19 @@ exports.criarPagamentoPix = async (req, res) => {
       return res.status(404).json({ message: "Pedido não encontrado" });
     }
 
-    // CPF fictício, idealmente use o CPF real do cliente se tiver
-    const cpf = "00000000191";
+    if (pedido.statusPagamento === "pago") {
+      return res.status(400).json({ message: "Este pedido já foi pago" });
+    }
+
+    // Validação do valor
+    if (!pedido.total || pedido.total <= 0) {
+      return res.status(400).json({ message: "Valor do pedido inválido" });
+    }
+
+    // Validação dos dados do cliente
+    if (!pedido.cliente || !pedido.cliente.email || !pedido.cliente.nome) {
+      return res.status(400).json({ message: "Dados do cliente incompletos" });
+    }
 
     const payment = new Payment(client);
 
@@ -307,27 +329,58 @@ exports.criarPagamentoPix = async (req, res) => {
       payment_method_id: "pix",
       payer: {
         email: pedido.cliente.email,
-        first_name: pedido.cliente.nome,
+        first_name: pedido.cliente.nome.split(' ')[0],
+        last_name: pedido.cliente.nome.split(' ').slice(1).join(' ') || 'Cliente',
         identification: {
           type: "CPF",
-          number: cpf
+          number: "00000000191" // CPF padrão para testes
         }
+      },
+      metadata: {
+        pedido_id: pedido._id.toString()
       }
     };
 
-    const result = await payment.create({ body: paymentData });
+    try {
+      const result = await payment.create({ body: paymentData });
 
-    if (result && result.point_of_interaction) {
+      if (!result || !result.point_of_interaction) {
+        throw new Error('Resposta inválida do Mercado Pago');
+      }
+
+      // Atualiza o pedido com informações do pagamento
+      pedido.metodoPagamento = "pix";
+      pedido.paymentId = result.id;
+      await pedido.save();
+
       return res.status(200).json({
         qr_code: result.point_of_interaction.transaction_data.qr_code,
         qr_code_base64: result.point_of_interaction.transaction_data.qr_code_base64,
-        payment_id: result.id
+        payment_id: result.id,
+        status: result.status
       });
-    } else {
-      return res.status(400).json({ message: "Erro ao gerar QR Code PIX" });
+    } catch (mpError) {
+      console.error('Erro na integração com Mercado Pago:', mpError);
+      
+      // Tratamento específico para erro PXB01
+      if (mpError.message && mpError.message.includes('PXB01')) {
+        return res.status(400).json({
+          message: "Erro na geração do pagamento PIX",
+          error: "Verifique se o token de acesso está correto e se todos os dados do pedido estão válidos",
+          details: mpError.message
+        });
+      }
+
+      return res.status(400).json({
+        message: "Erro ao gerar pagamento PIX",
+        error: mpError.message
+      });
     }
   } catch (error) {
     console.error("Erro ao criar pagamento PIX:", error);
-    return res.status(500).json({ message: "Erro ao criar pagamento PIX", error: error.message });
+    return res.status(500).json({
+      message: "Erro ao processar pagamento PIX",
+      error: error.message
+    });
   }
 };
