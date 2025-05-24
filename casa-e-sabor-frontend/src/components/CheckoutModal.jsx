@@ -11,14 +11,13 @@ import {
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/CheckoutModal.css";
+import api from '../services/api';
 
 // Adicione o script do Mercado Pago
 const script = document.createElement("script");
 script.src = "https://sdk.mercadopago.com/js/v2";
 script.async = true;
 document.body.appendChild(script);
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 const CheckoutModal = ({ show, onHide, pedidoId }) => {
   const [loading, setLoading] = useState(false);
@@ -50,31 +49,13 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
       await initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY);
 
       // Busca os dados do pagamento do backend
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("Token não encontrado");
-      }
+      const response = await api.post(`/pedidos/${pedidoId}/pagamento/mercado-pago`);
 
-      const response = await fetch(`${API_URL}/api/pedidos/${pedidoId}/pagar`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao processar pagamento");
-      }
-
-      const data = await response.json();
-      console.log("Resposta do servidor:", data);
-
-      if (!data.preferenceId) {
+      if (!response.data.preferenceId) {
         throw new Error("ID de preferência não recebido");
       }
 
-      setPreferenceId(data.preferenceId);
+      setPreferenceId(response.data.preferenceId);
     } catch (err) {
       console.error("Erro ao inicializar pagamento:", err);
       setError(err.message);

@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+// Define a URL base baseada no ambiente
+const baseURL = window.location.hostname === "localhost"
+  ? "http://localhost:5000/api"
+  : "https://casa-e-sabor.onrender.com/api";
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
