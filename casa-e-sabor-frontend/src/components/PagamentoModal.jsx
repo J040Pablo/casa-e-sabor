@@ -49,7 +49,8 @@ export default function PagamentoModal({ visible, pedido, onClose, onPedidoAtual
       const response = await api.post(`/pedidos/${pedido._id}/pagamento/mercado-pago`);
 
       if (response.status === 200 && response.data.init_point) {
-        window.location.href = response.data.init_point;
+        window.open(response.data.init_point, '_blank');
+        onClose();
       } else {
         throw new Error('URL de pagamento não recebida');
       }
@@ -59,7 +60,7 @@ export default function PagamentoModal({ visible, pedido, onClose, onPedidoAtual
     } finally {
       setLoading(false);
     }
-  }, [pedido._id, loading]);
+  }, [pedido._id, loading, onClose]);
 
   const handleClose = useCallback((e) => {
     if (e) {
