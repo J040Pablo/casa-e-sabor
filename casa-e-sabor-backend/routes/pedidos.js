@@ -15,6 +15,9 @@ router.patch("/:pedidoId/status", authenticateToken, pedidosController.atualizar
 // Rota para criar pagamento com Mercado Pago
 router.post("/:pedidoId/pagamento/mercado-pago", authenticateToken, pedidosController.criarPagamentoMercadoPago);
 
+// Rota para criar pagamento PIX
+router.post("/:pedidoId/pagamento/pix", authenticateToken, pedidosController.criarPagamentoPix);
+
 // Webhook do Mercado Pago (não requer autenticação)
 router.post("/webhook/mercado-pago", pedidosController.webhookMercadoPago);
 

@@ -286,3 +286,48 @@ exports.webhookMercadoPago = async (req, res) => {
     });
   }
 };
+
+exports.criarPagamentoPix = async (req, res) => {
+  try {
+    const { pedidoId } = req.params;
+    const pedido = await Pedido.findById(pedidoId);
+
+    if (!pedido) {
+      return res.status(404).json({ message: "Pedido não encontrado" });
+    }
+
+    // CPF fictício, idealmente use o CPF real do cliente se tiver
+    const cpf = "00000000191";
+
+    const payment = new Payment(client);
+
+    const paymentData = {
+      transaction_amount: Number(pedido.total),
+      description: `Pedido #${pedido._id}`,
+      payment_method_id: "pix",
+      payer: {
+        email: pedido.cliente.email,
+        first_name: pedido.cliente.nome,
+        identification: {
+          type: "CPF",
+          number: cpf
+        }
+      }
+    };
+
+    const result = await payment.create({ body: paymentData });
+
+    if (result && result.point_of_interaction) {
+      return res.status(200).json({
+        qr_code: result.point_of_interaction.transaction_data.qr_code,
+        qr_code_base64: result.point_of_interaction.transaction_data.qr_code_base64,
+        payment_id: result.id
+      });
+    } else {
+      return res.status(400).json({ message: "Erro ao gerar QR Code PIX" });
+    }
+  } catch (error) {
+    console.error("Erro ao criar pagamento PIX:", error);
+    return res.status(500).json({ message: "Erro ao criar pagamento PIX", error: error.message });
+  }
+};
