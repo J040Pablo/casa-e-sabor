@@ -224,6 +224,9 @@ exports.criarPagamentoMercadoPago = async (req, res) => {
         throw new Error('Falha ao criar preferência no Mercado Pago: init_point não encontrado');
       }
 
+      // Adiciona o parâmetro mode=web para forçar o modo web
+      const initPoint = result.init_point + (result.init_point.includes('?') ? '&' : '?') + 'mode=web';
+
       // Atualiza o pedido com informações do pagamento
       pedido.metodoPagamento = "mercado_pago";
       pedido.preferenceId = result.id;
@@ -231,7 +234,7 @@ exports.criarPagamentoMercadoPago = async (req, res) => {
 
       // Retorna a URL de pagamento
       return res.status(200).json({
-        init_point: result.init_point,
+        init_point: initPoint,
         preferenceId: result.id,
         sandbox_init_point: result.sandbox_init_point // Para testes
       });
