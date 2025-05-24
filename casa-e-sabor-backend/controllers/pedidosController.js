@@ -321,28 +321,55 @@ exports.criarPagamentoPix = async (req, res) => {
       return res.status(400).json({ message: "Dados do cliente incompletos" });
     }
 
+    // Log para debug
+    console.log('Iniciando pagamento PIX:', {
+      pedidoId: pedido._id,
+      valor: pedido.total,
+      cliente: pedido.cliente.email
+    });
+
     const payment = new Payment(client);
 
+    // Formatação do nome do cliente
+    const nomeCompleto = pedido.cliente.nome.trim();
+    const primeiroNome = nomeCompleto.split(' ')[0];
+    const sobrenome = nomeCompleto.split(' ').slice(1).join(' ') || 'Cliente';
+
     const paymentData = {
-      transaction_amount: Number(pedido.total),
+      transaction_amount: Number(pedido.total).toFixed(2),
       description: `Pedido #${pedido._id}`,
       payment_method_id: "pix",
       payer: {
-        email: pedido.cliente.email,
-        first_name: pedido.cliente.nome.split(' ')[0],
-        last_name: pedido.cliente.nome.split(' ').slice(1).join(' ') || 'Cliente',
+        email: pedido.cliente.email.toLowerCase().trim(),
+        first_name: primeiroNome,
+        last_name: sobrenome,
         identification: {
           type: "CPF",
-          number: "00000000191" // CPF padrão para testes
+          number: "00000000191"
         }
       },
       metadata: {
-        pedido_id: pedido._id.toString()
+        pedido_id: pedido._id.toString(),
+        order_id: pedido._id.toString()
+      },
+      additional_info: {
+        items: pedido.itens.map(item => ({
+          id: item._id?.toString() || 'item',
+          title: item.nome,
+          quantity: item.quantidade,
+          unit_price: item.preco
+        }))
       }
     };
 
+    // Log do payload para debug
+    console.log('Payload do pagamento:', JSON.stringify(paymentData, null, 2));
+
     try {
       const result = await payment.create({ body: paymentData });
+
+      // Log da resposta para debug
+      console.log('Resposta do Mercado Pago:', JSON.stringify(result, null, 2));
 
       if (!result || !result.point_of_interaction) {
         throw new Error('Resposta inválida do Mercado Pago');
@@ -351,29 +378,41 @@ exports.criarPagamentoPix = async (req, res) => {
       // Atualiza o pedido com informações do pagamento
       pedido.metodoPagamento = "pix";
       pedido.paymentId = result.id;
+      pedido.statusPagamento = "pendente";
       await pedido.save();
 
       return res.status(200).json({
         qr_code: result.point_of_interaction.transaction_data.qr_code,
         qr_code_base64: result.point_of_interaction.transaction_data.qr_code_base64,
         payment_id: result.id,
-        status: result.status
+        status: result.status,
+        expires_at: result.date_of_expiration
       });
     } catch (mpError) {
-      console.error('Erro na integração com Mercado Pago:', mpError);
+      console.error('Erro detalhado do Mercado Pago:', {
+        message: mpError.message,
+        status: mpError.status,
+        response: mpError.response?.data
+      });
       
       // Tratamento específico para erro PXB01
       if (mpError.message && mpError.message.includes('PXB01')) {
         return res.status(400).json({
           message: "Erro na geração do pagamento PIX",
-          error: "Verifique se o token de acesso está correto e se todos os dados do pedido estão válidos",
-          details: mpError.message
+          error: "Erro de autenticação ou formato inválido",
+          details: mpError.message,
+          debug_info: {
+            token_prefix: accessToken.substring(0, 8),
+            valor: paymentData.transaction_amount,
+            email: paymentData.payer.email
+          }
         });
       }
 
       return res.status(400).json({
         message: "Erro ao gerar pagamento PIX",
-        error: mpError.message
+        error: mpError.message,
+        details: mpError.response?.data
       });
     }
   } catch (error) {
