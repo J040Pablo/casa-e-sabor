@@ -54,22 +54,19 @@ const CheckoutModal = ({ show, onHide, pedidoId }) => {
       // Busca os dados do pagamento do backend
       const response = await api.post(`/pedidos/${pedidoId}/pagamento/mercado-pago`);
 
-      if (!response.data.preferenceId) {
-        throw new Error("ID de preferência não recebido");
+      if (!response.data.init_point) {
+        throw new Error("URL de pagamento não recebida");
       }
 
-      setPreferenceId(response.data.preferenceId);
+      // Abre o pagamento em uma nova guia
+      window.open(response.data.init_point, '_blank');
       
-      // Se houver dados do PIX, salva
-      if (response.data.pix_qr_code) {
-        setPixData({
-          qrCode: response.data.pix_qr_code,
-          qrCodeBase64: response.data.pix_qr_code_base64
-        });
-      }
+      // Fecha o modal após abrir a nova guia
+      onHide();
     } catch (err) {
       console.error("Erro ao inicializar pagamento:", err);
       setError(err.message);
+      toast.error("Erro ao inicializar pagamento. Por favor, tente novamente.");
     } finally {
       setLoading(false);
     }
