@@ -1,1 +1,130 @@
-# Casa & Sabor\n\n## Descrição do Projeto\n\n[Breve descrição sobre o que é o projeto Casa & Sabor, qual problema ele resolve, e qual seu objetivo principal. Por exemplo: \"Aplicação web para um restaurante/lanchonete que permite aos clientes visualizarem o cardápio, fazerem pedidos online, e realizarem pagamentos, incluindo integração com Mercado Pago.\"]\n\n## Funcionalidades\n\n*   **Autenticação de Usuário:** Cadastro e Login de clientes.\n*   **Cardápio Dinâmico:** Visualização de itens divididos por categorias (Comidas, Bebidas, Sobremesas).\n*   **Carrinho de Compras:** Adição e remoção de itens, cálculo do total.\n*   **Realização de Pedidos:** Envio do pedido para o backend.\n*   **Pagamento Online:** Integração com Mercado Pago (Checkout Pro).\n*   **Pagamento via PIX:** Geração de QR Code e código Copia e Cola.\n*   **Histórico de Pedidos:** Visualização dos pedidos feitos pelo usuário.\n*   **Exclusão de Pedidos:** Possibilidade de cancelar pedidos pendentes.\n*   [Adicionar outras funcionalidades relevantes]\n\n## Tecnologias Utilizadas\n\n**Frontend:**\n\n*   React\n*   React Router DOM\n*   Axios (ou Fetch API)\n*   React Toastify\n*   Font Awesome (para ícones)\n*   Mercado Pago SDK for React\n*   [Adicionar outras bibliotecas/frameworks do frontend]\n\n**Backend:**\n\n*   Node.js\n*   Express\n* MongoDB (com Mongoose)\n*   Mercado Pago SDK\n*   JWT (JSON Web Tokens para autenticação)\n*   Bcrypt (para criptografia de senha)\n*   [Adicionar outras bibliotecas/frameworks do backend]\n\n## Pré-requisitos\n\nAntes de começar, certifique-se de ter instalado:\n\n*   Node.js (versão LTS recomendada)\n*   npm ou yarn\n*   MongoDB (localmente ou acesso a um banco de dados remoto como MongoDB Atlas)\n*   Conta de desenvolvedor no Mercado Pago\n\n## Instalação\n\nSiga os passos abaixo para configurar o projeto localmente.\n\n### Clonar o Repositório\n\n```bash\ngit clone [URL_DO_SEU_REPOSITORIO]\ncd casa-e-sabor\n```\n\n### Configuração do Backend\n\n```bash\ncd casa-e-sabor-backend\nnpm install # ou yarn install\n```\n\nCrie um arquivo `.env` na raiz da pasta `casa-e-sabor-backend` com as seguintes variáveis:\n\n```env\nPORT=5000 # ou outra porta de sua preferência\nMONGODB_URI=[SUA_STRING_DE_CONEXAO_MONGODB]\nJWT_SECRET=[UMA_STRING_SECRETA_FORTE_PARA_JWT]\nMERCADO_PAGO_ACCESS_TOKEN=[SEU_ACCESS_TOKEN_DO_MERCADO_PAGO]\nFRONTEND_URL=http://localhost:3000 # ou a URL do seu frontend em produção\nBACKEND_URL=http://localhost:5000 # ou a URL do seu backend em produção\n```\n\n*   **MONGODB\_URI:** String de conexão para o seu banco de dados MongoDB.\n*   **JWT\_SECRET:** Uma string aleatória e segura para assinar os tokens JWT. Você pode gerar uma online ou usar um comando.\n*   **MERCADO\_PAGO\_ACCESS\_TOKEN:** Seu Access Token de produção ou sandbox do Mercado Pago. Encontre no painel do desenvolvedor do Mercado Pago.\n*   **FRONTEND\_URL** e **BACKEND\_URL:** Importante para os `back_urls` do Mercado Pago e notificações webhook.\n\n### Configuração do Frontend\n\n```bash\ncd ../casa-e-sabor-frontend\nnpm install # ou yarn install\n```\n\nCrie um arquivo `.env` na raiz da pasta `casa-e-sabor-frontend` com a seguinte variável:\n\n```env\nVITE_MERCADO_PAGO_PUBLIC_KEY=[SUA_PUBLIC_KEY_DO_MERCADO_PAGO]\n```\n\n*   **VITE\_MERCADO\_PAGO\_PUBLIC\_KEY:** Sua Public Key de produção ou sandbox do Mercado Pago. Encontre no painel do desenvolvedor do Mercado Pago.\n\n## Como Rodar o Projeto\n\n### Rodar o Backend\n\n```bash\ncd casa-e-sabor-backend\nnpm start # ou yarn start\n```\n\nO backend estará rodando em `http://localhost:5000` (ou na porta especificada no seu `.env`).\n\n### Rodar o Frontend\n\n```bash\ncd casa-e-sabor-frontend\nnpm run dev # ou yarn dev\n```\n\nO frontend estará rodando em `http://localhost:3000` (ou em outra porta, verifique a saída do comando).\n\n## Screenshots (Opcional)\n\n[Adicione aqui screenshots da sua aplicação para mostrar suas funcionalidades]\n\n## Licença (Opcional)\n\nEste projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.\n\n## Contato (Opcional)\n\n[Seu Nome/Pseudônimo]\n[Seu Email]\n[Link para seu Perfil GitHub]\n\n---\n\nFeito com ❤️ e código limpo. 
+Casa & Sabor
+📝 Descrição do Projeto
+Casa & Sabor é uma aplicação web desenvolvida para um restaurante/lanchonete, que permite aos clientes visualizarem o cardápio, realizarem pedidos online e efetuarem pagamentos de forma rápida e segura. O sistema também conta com integração ao Mercado Pago, oferecendo suporte para pagamentos via cartão e PIX. O objetivo é proporcionar uma experiência prática tanto para os clientes quanto para os administradores do estabelecimento.
+
+🚀 Funcionalidades
+Autenticação de Usuário: Cadastro e login de clientes.
+
+Cardápio Dinâmico: Visualização dos itens organizados por categorias (Comidas, Bebidas e Sobremesas).
+
+Carrinho de Compras: Adição e remoção de itens, com cálculo automático do total.
+
+Realização de Pedidos: Envio dos pedidos diretamente para o backend.
+
+Pagamento Online: Checkout integrado com Mercado Pago.
+
+Pagamento via PIX: Geração de QR Code e código Copia e Cola.
+
+Histórico de Pedidos: Acompanhamento de pedidos realizados.
+
+Cancelamento de Pedidos: Possibilidade de cancelar pedidos que ainda não foram processados.
+
+Notificações: Feedback visual sobre ações e status dos pedidos (via Toast).
+
+🛠️ Tecnologias Utilizadas
+Frontend
+React
+
+React Router DOM
+
+Axios
+
+React Toastify
+
+Font Awesome
+
+Mercado Pago SDK (Checkout Pro)
+
+Vite
+
+Backend
+
+Node.js
+
+Express
+
+MongoDB (Mongoose)
+
+Mercado Pago SDK
+
+JWT (Autenticação)
+
+Bcrypt (Criptografia de senhas)
+
+dotenv (Gerenciamento de variáveis de ambiente)
+
+Cors
+
+📋 Pré-requisitos
+Antes de começar, você precisa ter instalado na sua máquina:
+
+Node.js (versão LTS recomendada)
+
+npm ou yarn
+
+MongoDB (local ou MongoDB Atlas)
+
+Conta de desenvolvedor no Mercado Pago
+
+⚙️ Instalação
+🔗 Clonar o Repositório
+bash
+Copiar código
+git clone [URL_DO_SEU_REPOSITORIO]
+cd casa-e-sabor
+🚩 Configuração do Backend
+bash
+Copiar código
+cd casa-e-sabor-backend
+npm install
+Crie um arquivo .env na raiz da pasta casa-e-sabor-backend com o seguinte conteúdo:
+
+env
+Copiar código
+PORT=5000
+MONGODB_URI=[SUA_STRING_DE_CONEXAO_MONGODB]
+JWT_SECRET=[UMA_STRING_SECRETA_FORTE_PARA_JWT]
+MERCADO_PAGO_ACCESS_TOKEN=[SEU_ACCESS_TOKEN_DO_MERCADO_PAGO]
+FRONTEND_URL=http://localhost:3000
+BACKEND_URL=http://localhost:5000
+Variável	Descrição
+MONGODB_URI	String de conexão com seu banco MongoDB.
+JWT_SECRET	Uma string segura para gerar tokens JWT.
+MERCADO_PAGO_ACCESS_TOKEN	Token de acesso do Mercado Pago (encontrado no painel de desenvolvedor).
+FRONTEND_URL / BACKEND_URL	URLs para configuração do Checkout e Webhooks.
+
+🚩 Configuração do Frontend
+bash
+Copiar código
+cd ../casa-e-sabor-frontend
+npm install
+Crie um arquivo .env na raiz da pasta casa-e-sabor-frontend:
+
+env
+Copiar código
+VITE_MERCADO_PAGO_PUBLIC_KEY=[SUA_PUBLIC_KEY_DO_MERCADO_PAGO]
+Variável	Descrição
+VITE_MERCADO_PAGO_PUBLIC_KEY	Public Key do Mercado Pago (encontrada no painel do desenvolvedor).
+
+▶️ Como Rodar o Projeto
+🖥️ Rodar o Backend
+bash
+Copiar código
+cd casa-e-sabor-backend
+npm start
+Servidor rodando em http://localhost:5000
+
+🖥️ Rodar o Frontend
+bash
+Copiar código
+cd casa-e-sabor-frontend
+npm run dev
+Frontend rodando em http://localhost:3000
+
+📸 Screenshots (Opcional)
+
+📄 Licença
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+Feito com ❤️, café e código limpo.
+
